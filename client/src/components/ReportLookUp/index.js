@@ -3,12 +3,14 @@ import Modal from "../Modal";
 
 class ReportLookUp extends Component {
 
+  // Modal
   openModalHandler = () => {
     this.setState({
       isShowing: true
     });
   }
 
+  // Modal
   closeModalHandler = () => {
     this.setState({
       isShowing: false
@@ -112,12 +114,10 @@ class ReportLookUp extends Component {
         your job search.</p>
           <input type="text" id="lookup-company" value={this.state.search} onChange={this.handleInputChange} className="form-control" />
         </div>
-        {/* <Modal
-            results={this.state.resutls} /> */}
-        {/* <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal" >
-          Launch demo modal
-        </button> */}
 
+
+
+        {/* https://dev.to/achowba/building-a-modal-in-react-15hg */}
         <div>
           {this.state.isShowing ? <div onClick={this.closeModalHandler} className="back-drop"></div> : null}
 
@@ -126,7 +126,7 @@ class ReportLookUp extends Component {
             show={this.state.isShowing}
             close={this.closeModalHandler}>
             Maybe aircrafts fly very high because they don't want to be seen in plane sight?
-                </Modal>
+          </Modal>
         </div>
 
       </div>
