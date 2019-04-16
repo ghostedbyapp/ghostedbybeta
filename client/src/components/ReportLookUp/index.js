@@ -3,9 +3,22 @@ import Modal from "../Modal";
 
 class ReportLookUp extends Component {
 
+  openModalHandler = () => {
+    this.setState({
+      isShowing: true
+    });
+  }
+
+  closeModalHandler = () => {
+    this.setState({
+      isShowing: false
+    });
+  }
+
   state = {
     search: '',
-    resutls: {}
+    resutls: {},
+    isShowing: false
   };
 
   componentDidMount() {
@@ -85,6 +98,8 @@ class ReportLookUp extends Component {
     });
 
     console.log('resutls', this.state.resutls)
+
+    this.openModalHandler()
   }
 
   render() {
@@ -97,11 +112,22 @@ class ReportLookUp extends Component {
         your job search.</p>
           <input type="text" id="lookup-company" value={this.state.search} onChange={this.handleInputChange} className="form-control" />
         </div>
-        <Modal
-          results={this.state.resutls} />
+        {/* <Modal
+            results={this.state.resutls} /> */}
         {/* <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal" >
           Launch demo modal
         </button> */}
+
+        <div>
+          {this.state.isShowing ? <div onClick={this.closeModalHandler} className="back-drop"></div> : null}
+
+          <Modal
+            className="modal"
+            show={this.state.isShowing}
+            close={this.closeModalHandler}>
+            Maybe aircrafts fly very high because they don't want to be seen in plane sight?
+                </Modal>
+        </div>
 
       </div>
     )
