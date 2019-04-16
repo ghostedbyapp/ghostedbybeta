@@ -1,4 +1,5 @@
 import React from "react";
+import "./definition.css"; 
 
 function Definition() {
     return (
