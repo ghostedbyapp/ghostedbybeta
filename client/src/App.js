@@ -11,16 +11,18 @@ import Footer from "./components/Footer";
 class App extends Component {
   render() {
     return (
-      <MainWrapper>
-        <NavBar />
-        <LookUpChartWrapper>
-          <ReportLookUp />
-          <Chart />
-        </LookUpChartWrapper>
-        <Definition/>
-        <SomeFacts/>
-        <Footer/>
-      </MainWrapper>
+      <div>
+        <MainWrapper>
+          <NavBar />
+          <LookUpChartWrapper>
+            <ReportLookUp />
+            <Chart />
+          </LookUpChartWrapper>
+        </MainWrapper>
+        <Definition />
+        <SomeFacts />
+        <Footer />
+      </div>
     )
   }
 }

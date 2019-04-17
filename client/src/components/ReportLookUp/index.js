@@ -106,29 +106,14 @@ class ReportLookUp extends Component {
 
   render() {
     return (
-      <div>
-        {/* // left side of home page to report or lookup a company */}
-        <div className="col-sm-6 col-lg-6">
-          <h1 className="block-titleData frequency text-white">Report Companies Who Ghost Interview Candidates</h1>
-          <p className="lead mb-4 text-white">Report violators. Research trending companies. Become more productive in
-        your job search.</p>
-          <input type="text" id="lookup-company" value={this.state.search} onChange={this.handleInputChange} className="form-control" />
-        </div>
 
 
-
-        {/* https://dev.to/achowba/building-a-modal-in-react-15hg */}
-        <div>
-          {this.state.isShowing ? <div onClick={this.closeModalHandler} className="back-drop"></div> : null}
-
-          <Modal
-            className="modal"
-            show={this.state.isShowing}
-            close={this.closeModalHandler}>
-            Maybe aircrafts fly very high because they don't want to be seen in plane sight?
-          </Modal>
-        </div>
-
+      // left side of home page to report or lookup a company
+      <div className="col-sm-6 col-lg-6">
+        <h1 className="block-titleData frequency text-white">Report Companies Who Ghost Interview Candidates</h1>
+        <p className="lead mb-4 text-white">Report violators. Research trending companies. Become more productive in
+      your job search.</p>
+      <input type="text" id="lookup-company" value={this.state.search} onChange={this.handleInputChange} className="form-control" />
       </div>
     )
   }
@@ -144,3 +129,16 @@ function loadScript(url) {
 }
 
 export default ReportLookUp;
+
+
+        // {/* https://dev.to/achowba/building-a-modal-in-react-15hg */}
+        // <div>
+        //   {this.state.isShowing ? <div onClick={this.closeModalHandler} className="back-drop"></div> : null}
+
+        //   <Modal
+        //     className="modal"
+        //     show={this.state.isShowing}
+        //     close={this.closeModalHandler}>
+        //     Maybe aircrafts fly very high because they don't want to be seen in plane sight?
+        //   </Modal>
+        // </div>
