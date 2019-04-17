@@ -1,21 +1,7 @@
 import React, { Component } from "react";
-import Modal from "../Modal";
+import API from "../../utils"
 
 class ReportLookUp extends Component {
-
-  // Modal
-  openModalHandler = () => {
-    this.setState({
-      isShowing: true
-    });
-  }
-
-  // Modal
-  closeModalHandler = () => {
-    this.setState({
-      isShowing: false
-    });
-  }
 
   state = {
     search: '',
@@ -99,9 +85,13 @@ class ReportLookUp extends Component {
       resutls: companyResult
     });
 
-    console.log('resutls', this.state.resutls)
+    //console.log('resutls', this.state.resutls);
 
-    this.openModalHandler()
+    this.saveCompany(this.state.resutls);
+  }
+
+  saveCompany = companyInfo => {
+    API.saveCompany(companyInfo)
   }
 
   render() {
@@ -113,7 +103,7 @@ class ReportLookUp extends Component {
         <h1 className="block-titleData frequency text-white">Report Companies Who Ghost Interview Candidates</h1>
         <p className="lead mb-4 text-white">Report violators. Research trending companies. Become more productive in
       your job search.</p>
-      <input type="text" id="lookup-company" value={this.state.search} onChange={this.handleInputChange} className="form-control" />
+        <input type="text" id="lookup-company" value={this.state.search} onChange={this.handleInputChange} className="form-control" />
       </div>
     )
   }

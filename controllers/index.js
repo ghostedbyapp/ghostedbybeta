@@ -1,14 +1,13 @@
 var model = require("../models");
-const path = require("path");
 
 module.exports = function (app) {
 
-    // Save Books
-    app.post("/api/books", model.save);
+    // Save Company
+    app.post("/api/company", model.save);
 
-    // Get Saved Books
-    app.get("/api/savedBooks", model.load);
+    // // Get Saved Books
+    // app.get("/api/savedBooks", model.load);
 
-    // Delete Book
-    app.delete("/api/books/:id", model.remove);
+    // // Delete Book
+    // app.delete("/api/books/:id", model.remove);
 }
