@@ -1,0 +1,10 @@
+/* navbar */
+.app-navbar {
+  font-weight: 500;
+  letter-spacing: .05em;
+  position: absolute;
+}
+/* white font in the definition space for ghosting */
+#definition {
+  color: white;
+}
