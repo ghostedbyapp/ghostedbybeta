@@ -6,6 +6,11 @@ export default {
     return axios.post("/api/company", companyInfo);
   },
 
+    // Saves a Company info to the database
+    reportCompany: function (companyInfo) {
+    return axios.post("/api/report", companyInfo);
+  },
+
   // // Get saved books
   // getSavedBooks: function () {
   //   return axios.get("/api/savedBooks");

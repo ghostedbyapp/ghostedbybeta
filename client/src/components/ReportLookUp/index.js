@@ -85,13 +85,37 @@ class ReportLookUp extends Component {
       resutls: companyResult
     });
 
-    //console.log('resutls', this.state.resutls);
-
+    // Save company to database
     this.saveCompany(this.state.resutls);
   }
 
+  // Save company to database
   saveCompany = companyInfo => {
     API.saveCompany(companyInfo)
+      .then((data) => {
+        
+        // If company was not save and already in the database
+        if (data.data.companyInfo !== "saved") {
+
+          let companyInfo = {
+            id: data.data.id,
+            name: data.data.name
+          }
+          this.reportCompany(companyInfo);
+        }
+        else {
+          // Saved
+          console.log(data.data.companyInfo)
+        }
+      })
+  }
+
+  // Report company and add new count to database
+  reportCompany = companyInfo => {
+    API.reportCompany(companyInfo)
+    .then(function (data) {
+      console.log(data)
+    })
   }
 
   render() {
@@ -119,16 +143,3 @@ function loadScript(url) {
 }
 
 export default ReportLookUp;
-
-
-        // {/* https://dev.to/achowba/building-a-modal-in-react-15hg */}
-        // <div>
-        //   {this.state.isShowing ? <div onClick={this.closeModalHandler} className="back-drop"></div> : null}
-
-        //   <Modal
-        //     className="modal"
-        //     show={this.state.isShowing}
-        //     close={this.closeModalHandler}>
-        //     Maybe aircrafts fly very high because they don't want to be seen in plane sight?
-        //   </Modal>
-        // </div>
