@@ -78,7 +78,7 @@ class ReportLookUp extends Component {
 
       // User entered the name of a Place that was not suggested and
       // pressed the Enter key, or the Place Details request failed.
-      window.alert("No details available for input: '" + place.name + "'");
+      window.alert("Company " + place.name + " is not in our database, please reenter with a valid company name.");
       return;
     }
 
