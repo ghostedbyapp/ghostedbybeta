@@ -1,0 +1,5 @@
+/* white font in the definition space for ghosting */
+
+#definition {
+    color: white;
+}
