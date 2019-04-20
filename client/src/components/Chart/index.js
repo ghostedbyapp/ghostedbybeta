@@ -21,7 +21,11 @@ function Chart(props) {
           height: 400,
           title: "Dummy",
           xaxis: {
+            fixedrange: true,
             tickangle: -45
+          },
+          yaxis: {
+            fixedrange: true
           }
         }}
         config = {{
