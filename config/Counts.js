@@ -8,7 +8,7 @@ var Schema = mongoose.Schema;
 var CountSchema = new Schema({
 	
 	entry_date: {
-		type: String
+		type: Date
 	}
 });
 

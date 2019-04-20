@@ -10,6 +10,7 @@ class ReportLookUp extends Component {
   };
 
   componentDidMount() {
+    this.last30days()
     this.renderPlaces()
   }
 
@@ -20,6 +21,22 @@ class ReportLookUp extends Component {
   renderPlaces = () => {
     loadScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyBbyk8K108Ko9KQlMx7jtjPmga2wn0IpJs&libraries=places&callback=initAutocomplete")
     window.initAutocomplete = this.initAutocomplete
+  }
+
+  // Load top 10 companies from the database
+  loadLifetimeCompanies = () => {
+    API.loadLifetimeCompanies()
+      .then((data) => {
+        console.log("lifetime", data)
+      })
+  }
+
+  // Load last 30 days from the database
+  last30days = () => {
+    API.last30days()
+      .then((data) => {
+        console.log("last30days", data)
+      })
   }
 
   initAutocomplete = () => {
@@ -93,7 +110,7 @@ class ReportLookUp extends Component {
   saveCompany = companyInfo => {
     API.saveCompany(companyInfo)
       .then((data) => {
-        
+
         // If company was not save and already in the database
         if (data.data.companyInfo !== "saved") {
 
@@ -113,9 +130,9 @@ class ReportLookUp extends Component {
   // Report company and add new count to database
   reportCompany = companyInfo => {
     API.reportCompany(companyInfo)
-    .then(function (data) {
-      console.log(data)
-    })
+      .then(function (data) {
+        console.log(data)
+      })
   }
 
   render() {

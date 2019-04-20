@@ -23,7 +23,7 @@ var CompanySchema = new Schema({
 		type: String
 	},
 	entry_date: {
-		type: String
+		type: Date
 	},
 
 	// `CountId` is an object that stores a Counts id

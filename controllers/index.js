@@ -8,6 +8,9 @@ module.exports = function (app) {
     // Report Company
     app.post("/api/report", model.report);
 
-    // // Delete Book
-    // app.delete("/api/books/:id", model.remove);
+    // Load Lifetime Companies
+    app.get("/api/loadLifetimeCompanies", model.loadLifetime);
+
+    // Load last 30 days
+    app.get("/api/last30days", model.last30days);
 }
