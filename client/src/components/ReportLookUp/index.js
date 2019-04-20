@@ -1,4 +1,8 @@
 import React, { Component } from "react";
+import API from "../../utils"
+
+class ReportLookUp extends Component {
+
 // import Modal from "../Modal";
 import {Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 
@@ -26,6 +30,7 @@ class ReportLookUp extends Component {
   };
 
   componentDidMount() {
+    this.last30days()
     this.renderPlaces()
   }
 
@@ -36,6 +41,22 @@ class ReportLookUp extends Component {
   renderPlaces = () => {
     loadScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyBbyk8K108Ko9KQlMx7jtjPmga2wn0IpJs&libraries=places&callback=initAutocomplete")
     window.initAutocomplete = this.initAutocomplete
+  }
+
+  // Load top 10 companies from the database
+  loadLifetimeCompanies = () => {
+    API.loadLifetimeCompanies()
+      .then((data) => {
+        console.log("lifetime", data)
+      })
+  }
+
+  // Load last 30 days from the database
+  last30days = () => {
+    API.last30days()
+      .then((data) => {
+        console.log("last30days", data)
+      })
   }
 
   initAutocomplete = () => {
@@ -101,9 +122,39 @@ class ReportLookUp extends Component {
       results: companyResult
     });
 
+    // Save company to database
+    this.saveCompany(this.state.resutls);
+  }
     console.log('results', this.state.results)
 
-    this.openModalHandler()
+
+  // Save company to database
+  saveCompany = companyInfo => {
+    API.saveCompany(companyInfo)
+      .then((data) => {
+
+        // If company was not save and already in the database
+        if (data.data.companyInfo !== "saved") {
+
+          let companyInfo = {
+            id: data.data.id,
+            name: data.data.name
+          }
+          this.reportCompany(companyInfo);
+        }
+        else {
+          // Saved
+          console.log(data.data.companyInfo)
+        }
+      })
+  }
+
+  // Report company and add new count to database
+  reportCompany = companyInfo => {
+    API.reportCompany(companyInfo)
+      .then(function (data) {
+        console.log(data)
+      })
   }
 
   render() {
@@ -112,6 +163,9 @@ class ReportLookUp extends Component {
       <div className="col-sm-6 col-lg-6">
         <h1 className="block-titleData frequency text-white">Report Companies Who Ghost Interview Candidates</h1>
         <p className="lead mb-4 text-white">Report violators. Research trending companies. Become more productive in
+
+      your job search.</p>
+        <input type="text" id="lookup-company" value={this.state.search} onChange={this.handleInputChange} className="form-control" />
         your job search.</p>
         <input type="text" id="lookup-company" value={this.state.search} onChange={this.handleInputChange} className="form-control" />
         {/* <Button color="primary" onClick={this.openModalHandler}>Search</Button> */}
@@ -140,16 +194,3 @@ function loadScript(url) {
 }
 
 export default ReportLookUp;
-
-
-        // {/* https://dev.to/achowba/building-a-modal-in-react-15hg */}
-        // <div>
-        //   {this.state.isShowing ? <div onClick={this.closeModalHandler} className="back-drop"></div> : null}
-
-        //   <Modal
-        //     className="modal"
-        //     show={this.state.isShowing}
-        //     close={this.closeModalHandler}>
-        //     Maybe aircrafts fly very high because they don't want to be seen in plane sight?
-        //   </Modal>
-        // </div>

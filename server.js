@@ -25,8 +25,8 @@ if (process.env.NODE_ENV === "production") {
 
 // Define API routes here
 // Import routes and/or controllers and give the server access to them.
-// require("./controllers")(app);
-// require("./routes")(app);
+require("./controllers")(app);
+require("./routes")(app);
 
 // Start the server
 app.listen(PORT, function () {
