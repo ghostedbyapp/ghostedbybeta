@@ -3,29 +3,9 @@ import API from "../../utils"
 
 class ReportLookUp extends Component {
 
-// import Modal from "../Modal";
-import {Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
-
-
-class ReportLookUp extends Component {
-
-  // Modal
-  openModalHandler = () => {
-    this.setState({
-      isShowing: true
-    });
-  }
-
-  // // Modal
-  closeModalHandler = () => {
-    this.setState({
-      isShowing: false
-    });
-  }
-
   state = {
     search: '',
-    results: {},
+    resutls: {},
     isShowing: false
   };
 
@@ -99,7 +79,7 @@ class ReportLookUp extends Component {
 
       // User entered the name of a Place that was not suggested and
       // pressed the Enter key, or the Place Details request failed.
-      window.alert("Company " + place.name + " is not in our database, please reenter with a valid company name.");
+      window.alert("No details available for input: '" + place.name + "'");
       return;
     }
 
@@ -119,14 +99,12 @@ class ReportLookUp extends Component {
     // Clear search text input and add all company info
     this.setState({
       search: '',
-      results: companyResult
+      resutls: companyResult
     });
 
     // Save company to database
     this.saveCompany(this.state.resutls);
   }
-    console.log('results', this.state.results)
-
 
   // Save company to database
   saveCompany = companyInfo => {
@@ -159,27 +137,15 @@ class ReportLookUp extends Component {
 
   render() {
     return (
-      // {/* // left side of home page to report or lookup a company */}
+
+
+      // left side of home page to report or lookup a company
       <div className="col-sm-6 col-lg-6">
         <h1 className="block-titleData frequency text-white">Report Companies Who Ghost Interview Candidates</h1>
         <p className="lead mb-4 text-white">Report violators. Research trending companies. Become more productive in
-
       your job search.</p>
         <input type="text" id="lookup-company" value={this.state.search} onChange={this.handleInputChange} className="form-control" />
-        your job search.</p>
-        <input type="text" id="lookup-company" value={this.state.search} onChange={this.handleInputChange} className="form-control" />
-        {/* <Button color="primary" onClick={this.openModalHandler}>Search</Button> */}
-        <Modal isOpen={this.state.isShowing}>
-          <ModalBody>
-            {this.state.results.company_name}
-          </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={this.closeModalHandler}>Close</Button>
-          </ModalFooter>
-        </Modal>
       </div>
-    
-      
     )
   }
 }
