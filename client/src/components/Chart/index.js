@@ -12,16 +12,21 @@ function Chart(props) {
           {
             x: ["a",'b','c','d','e','f','g','h','i','j'],
             y: [1,2,3,4,5,6,7,8,9,10],
+            text: [1,2,3,4,5,6,7,8,9,10],
             type: 'bar'
           }
         ]}
         layout={{
           width: 500,
           height: 400,
-          title: "Dummy"
+          title: "Dummy",
+          xaxis: {
+            tickangle: -45
+          }
         }}
         config = {{
-          staticPlot: true
+          displayModeBar: false,
+          scrollZoom: false
         }}
         // {...props.top10 ?
         //     data:{
