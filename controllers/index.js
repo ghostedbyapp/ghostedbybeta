@@ -13,4 +13,7 @@ module.exports = function (app) {
 
     // Load last 30 days
     app.get("/api/last30days", model.last30days);
+
+    // Load last 7 days
+    app.get("/api/last7days", model.last7days);
 }

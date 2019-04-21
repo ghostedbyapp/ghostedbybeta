@@ -10,7 +10,7 @@ class ReportLookUp extends Component {
   };
 
   componentDidMount() {
-    this.last30days()
+    this.loadLifetimeCompanies()
     this.renderPlaces()
   }
 
@@ -36,6 +36,14 @@ class ReportLookUp extends Component {
     API.last30days()
       .then((data) => {
         console.log("last30days", data)
+      })
+  }
+
+  // Load last 7 days from the database
+  last7days = () => {
+    API.last7days()
+      .then((data) => {
+        console.log("last7days", data)
       })
   }
 

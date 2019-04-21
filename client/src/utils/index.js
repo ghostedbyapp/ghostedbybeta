@@ -21,15 +21,9 @@ export default {
     return axios.get("/api/last30days");
   },
 
-  // // Get saved books
-  // getSavedBooks: function () {
-  //   return axios.get("/api/savedBooks");
-  // },
-
-
-  // // Deletes the book with the given id
-  // deleteBook: function (id) {
-  //   return axios.delete("/api/books/" + id);
-  // },
-
+  // Load last 30 days from the database
+  last7days: function () {
+    return axios.get("/api/last7days");
+  }
+  
 };

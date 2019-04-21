@@ -109,130 +109,60 @@ module.exports = {
   // Load Last 30 Days Companies
   last30days: function (req, res) {
 
-    // db.Companies.aggregate([
-    //   { $unwind: "$countId" },
-    //   { $group: { _id: "$_id", name: { $first: "$name" }, countId: { $push: "$countId" }, size: { $sum: 1 } } }
-    // ])
-    //   .then(function (dbCompanies) {
-    //     console.log(dbCompanies)
-
-    //     db.Companies.populate(
-    //       dbCompanies,
-    //       {
-    //         path: 'countId',
-    //         match: { 'entry_date': { $gt: moment().toDate() } }
-    //       },
-    //       function (err, populatedTransactions) {
-    //         res.json(populatedTransactions);
-    //       });
-    //   })
-
-
-    // db.Companies.aggregate([
-    //   { $unwind: '$countId' },
-    //   //{ $match: { 'entry_date': { $gte: moment().toDate() } } },
-    //   { $group: { _id: "$_id", name: { $first: "$name" }, countId: { $push: "$countId" }, size: { $sum: 1 } } },
-    //   //{ $project: { countId: 1, name: '$name', _id: 0 } }
-    // ])
-    //   .then(function (err, transactions) {
-
-    //     console.log("transactions", transactions)
-
-    //     db.Companies.populate(
-    //       transactions,
-    //       {
-    //         path: 'countId',
-    //         match: { 'entry_date': { $lt: moment().toDate() } }
-    //       },
-    //       function (err, populatedTransactions) {
-    //         res.json(populatedTransactions);
-    //       });
-    //   });
-
-    // Find all Companies
+    console.log(moment().subtract(1, 'months').toDate())
+    
+    // Get all counts
     db.Counts.aggregate([
-      { $match: { entry_date: { $gt: moment().toDate() } } },
+      { $match: { entry_date: { $gte: moment().subtract(1, 'months').toDate() } } },
       { $project: { entry_date: 0, __v: 0 } }
     ])
       .then(function (dbCompanies) {
 
-        //console.log("dbCompanies", dbCompanies)
+        var count = []
 
-        db.Companies.find({ 'countId': { $in: dbCompanies }})
-          .then(function (test) {
-            res.json(test);
+        dbCompanies.forEach((elemet) => {
+          count.push(ObjectId(`${elemet._id}`))
+        })
+
+        db.Companies.aggregate([
+          { $unwind: '$countId' },
+          { $match: { countId: { $in: count } } },
+          //{ $group: { _id: '$_id', name: { $first: '$name' }, countIds: { $sum: 1 } } },
+        ])
+
+          .then(function (results) {
+            res.json(results);
           })
       })
+  },
 
+  // Load Last 7 Days Companies
+  last7days: function (req, res) {
 
-    // db.Counts.find({
-    //   entry_date: { $gt: moment().toDate() }
-    // })
-    //   .then(function (transactions) {
+    console.log(moment().subtract(7, 'days').toDate())
 
-    //     console.log("transactions", transactions)
+    // Get all counts
+    db.Counts.aggregate([
+      { $match: { entry_date: { $gte: moment().subtract(7, 'days').toDate() } } },
+      { $project: { entry_date: 0, __v: 0 } }
+    ])
+      .then(function (dbCompanies) {
 
-    //     db.Companies.aggregate([
-    //       { $unwind: '$countId' },
-    //       { $match: { entry_date: { $eq: transactions } } },
-    //       { $group: { _id: "$_id", name: { $first: "$name" }, countId: { $push: "$countId" }, size: { $sum: 1 } } },
-    //       //{ $project: { countId: 1, name: '$name', _id: 0 } }
-    //     ])
+        var count = []
 
-    //     // db.Companies.find({ countId: { $eq: transactions.entry_date }
-    //     // })
-    //      .then(function (dbCompanies) {
+        dbCompanies.forEach((elemet) => {
+          count.push(ObjectId(`${elemet._id}`))
+        })
 
-    //        console.log("dbCompanies", dbCompanies)
-    //      })
-    // .catch(function (err) {
-    //   // If an error occurs, send it back to the client
-    //   res.json(err);
-    // })
-    // transactions,
-    // {
-    //   path: 'countId',
-    //   select: 'name',
-    //   match: { entry_date: { $eq: transactions.entry_date }}
-    // },
-    // function (err, pop) {
-    //   res.json(pop);
-    // })
-    //})
+        db.Companies.aggregate([
+          { $unwind: '$countId' },
+          { $match: { countId: { $in: count } } },
+          //{ $group: { _id: '$_id', name: { $first: '$name' }, countIds: { $sum: 1 } } },
+        ])
 
-    // Specify that we want to populate the retrieved companies with any associated counts
-    // .populate({
-    //   path: 'Companies',
-    //   match: { entry_date: { $gt: moment().toDate() } },
-    // })
-
-    // //.populate('Companies', null, {entry_date: { $gt: moment().toDate() } })
-
-    // .then(function (dbCompanies) {
-
-    // res.json(dbCompanies);
-    //})
-
-
-    // // Find all Companies
-    // db.Counts.find({entry_date: { $gt: moment().toDate() }})
-
-
-    //     // Specify that we want to populate the retrieved companies with any associated counts
-    //     // .populate({
-    //     //   path: 'Companies',
-    //     //   match: { entry_date: { $gt: moment().toDate() } },
-    //     // })
-
-    //     // //.populate('Companies', null, {entry_date: { $gt: moment().toDate() } })
-
-    //     .then(function (dbCompanies) {
-
-    //       res.json(dbCompanies);
-    //     })
-    //     .catch(function (err) {
-    //       // If an error occurs, send it back to the client
-    //       res.json(err);
-    //     });
+          .then(function (results) {
+            res.json(results);
+          })
+      })
   }
 };
