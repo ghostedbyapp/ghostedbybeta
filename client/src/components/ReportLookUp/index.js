@@ -11,17 +11,13 @@ class ReportLookUp extends Component {
 
   componentDidMount() {
     this.loadLifetimeCompanies()
-    this.renderPlaces()
+    //this.renderPlaces()
   }
 
-  handleInputChange = event => {
-    this.setState({ search: event.target.value });
-  }
-
-  renderPlaces = () => {
-    loadScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyBbyk8K108Ko9KQlMx7jtjPmga2wn0IpJs&libraries=places&callback=initAutocomplete")
-    window.initAutocomplete = this.initAutocomplete
-  }
+  // renderPlaces = () => {
+  //   //loadScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyBbyk8K108Ko9KQlMx7jtjPmga2wn0IpJs&libraries=places&callback=initAutocomplete")
+  //   window.initAutoComplete = this.initAutoComplete
+  // }
 
   // Load top 10 companies from the database
   loadLifetimeCompanies = () => {
@@ -47,7 +43,11 @@ class ReportLookUp extends Component {
       })
   }
 
-  initAutocomplete = () => {
+  handleInputChange = event => {
+    this.setState({ search: event.target.value });
+  }
+
+  initAutoComplete = () => {
 
     // Create the autocomplete object, restricting the search predictions to
     // geographical location types.
@@ -158,13 +158,13 @@ class ReportLookUp extends Component {
   }
 }
 
-function loadScript(url) {
-  var index = window.document.getElementsByTagName('script')[0]
-  var script = window.document.createElement('script')
-  script.src = url
-  script.async = true
-  script.defer = true
-  index.parentNode.insertBefore(script, index)
-}
+// function loadScript(url) {
+//   var index = window.document.getElementsByTagName('script')[0]
+//   var script = window.document.createElement('script')
+//   script.src = url
+//   script.async = true
+//   script.defer = true
+//   index.parentNode.insertBefore(script, index)
+// }
 
 export default ReportLookUp;
