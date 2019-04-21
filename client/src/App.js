@@ -22,6 +22,7 @@ class App extends Component {
     window.initialize = this.initialize
   }
 
+  // Initialize Google Maps and Places API and reference child components to call functions.
   initialize = () => {
     this.refs.placesApi.initAutoComplete();
     this.refs.mapsApi.initMap();

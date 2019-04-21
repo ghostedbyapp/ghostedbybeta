@@ -3,10 +3,7 @@ import "./maps.css";
 
 class Maps extends Component {
 
-
   initMap = () => {
-
-    console.log("ok something is working")
 
     var map = new window.google.maps.Map(document.getElementById('map'), {
       center: { lat: 0, lng: 0 },

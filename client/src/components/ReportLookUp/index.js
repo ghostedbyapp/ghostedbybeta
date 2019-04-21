@@ -11,13 +11,7 @@ class ReportLookUp extends Component {
 
   componentDidMount() {
     this.loadLifetimeCompanies()
-    //this.renderPlaces()
   }
-
-  // renderPlaces = () => {
-  //   //loadScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyBbyk8K108Ko9KQlMx7jtjPmga2wn0IpJs&libraries=places&callback=initAutocomplete")
-  //   window.initAutoComplete = this.initAutoComplete
-  // }
 
   // Load top 10 companies from the database
   loadLifetimeCompanies = () => {
@@ -157,14 +151,5 @@ class ReportLookUp extends Component {
     )
   }
 }
-
-// function loadScript(url) {
-//   var index = window.document.getElementsByTagName('script')[0]
-//   var script = window.document.createElement('script')
-//   script.src = url
-//   script.async = true
-//   script.defer = true
-//   index.parentNode.insertBefore(script, index)
-// }
 
 export default ReportLookUp;
