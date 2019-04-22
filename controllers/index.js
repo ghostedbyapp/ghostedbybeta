@@ -8,6 +8,9 @@ module.exports = function (app) {
     // Report Company
     app.post("/api/report", model.report);
 
+    // Search a Company
+    app.get("/api/company", model.search)
+
     // Load Lifetime Companies
     app.get("/api/loadLifetimeCompanies", model.loadLifetime);
 

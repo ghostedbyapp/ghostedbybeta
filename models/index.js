@@ -4,6 +4,18 @@ var ObjectId = require('mongoose').Types.ObjectId;
 
 module.exports = {
 
+  search: function(req, res) {
+    db.Companies.find({
+      name: req.body.company_name,
+      address: `${req.body.street_number} ${req.body.route}`,
+      city: req.body.locality,
+      state: req.body.administrative_area_level_1,
+      zipcode: req.body.postal_code
+    }).then(function (searchedCompany) {
+      res.json(searchedCompany)
+    }).catch(err => res.status(422).json(err))
+  },
+
   save: function (req, res) {
 
     // Search for duplicate companies
