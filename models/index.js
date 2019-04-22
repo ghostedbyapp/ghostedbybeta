@@ -1,36 +1,168 @@
 var db = require("../config");
+var moment = require('moment');
+var ObjectId = require('mongoose').Types.ObjectId;
 
 module.exports = {
-  findAll: function(req, res) {
-    db.Book
-      .find(req.query)
-      .sort({ date: -1 })
-      .then(dbModel => res.json(dbModel))
-      .catch(err => res.status(422).json(err));
+
+  save: function (req, res) {
+
+    // Search for duplicate companies
+    db.Companies.find({
+      name: req.body.company_name,
+      address: `${req.body.street_number} ${req.body.route}`,
+      city: req.body.locality,
+      state: req.body.administrative_area_level_1,
+      zipcode: req.body.postal_code
+    }).then(function (companyResult) {
+
+      // If no duplicates
+      if (companyResult.length === 0) {
+
+        // Add company in Companies database
+        db.Companies
+          .create({
+            name: req.body.company_name,
+            address: `${req.body.street_number} ${req.body.route}`,
+            city: req.body.locality,
+            state: req.body.administrative_area_level_1,
+            zipcode: req.body.postal_code,
+            entry_date: moment().toDate() //new Date()
+          })
+          .then(function (dbCompanies) {
+
+            // Add count entry in Count database
+            db.Counts.create({
+              entry_date: moment().toDate() //new Date()
+            })
+              .then(function (dbCount) {
+
+                // Add Count id to Company id - countId
+                db.Companies.update({ _id: dbCompanies.id },
+                  { $push: { countId: dbCount.id } })
+                  .then(function () {
+
+                    // Send back that the company was saved
+                    res.json({ companyInfo: 'saved' });
+                  })
+                  .catch(err => res.status(422).json(err));
+              })
+          })
+      }
+
+      // Company is a duplicate
+      else {
+
+        // Return company information
+        let companyInfo = {
+          id: companyResult[0]._id,
+          countId: companyResult[0].countId
+        }
+
+        res.json(companyInfo);
+      }
+    })
   },
-  findById: function(req, res) {
-    db.Book
-      .findById(req.params.id)
-      .then(dbModel => res.json(dbModel))
-      .catch(err => res.status(422).json(err));
+
+  // Report company already in the database
+  report: function (req, res) {
+
+    // Add count entry in Count database
+    db.Counts.create({
+      entry_date: moment().toDate() //new Date()
+    })
+      .then(function (dbCount) {
+
+        // Add Count id to Company id
+        db.Companies.update({ _id: req.body.id },
+          { $push: { countId: dbCount.id } })
+          .then(function () {
+
+            // Send back that the company was saved
+            res.json({ companyInfo: 'count added' });
+          })
+          .catch(err => res.status(422).json(err));
+      })
   },
-  create: function(req, res) {
-    db.Book
-      .create(req.body)
-      .then(dbModel => res.json(dbModel))
-      .catch(err => res.status(422).json(err));
+
+  // Load Lifetime Companies
+  loadLifetime: function (req, res) {
+
+    db.Companies.aggregate([
+      { $unwind: '$countId' },
+      { $group: { _id: '$_id', name: { $first: '$name' }, countIds: { $sum: 1 } } },
+      { $sort: { countIds: -1 } },
+      { $limit: 10 }])
+
+      // Use the below code to show the count Ids
+      //{$group: {_id:"$_id", name:{$first: "$name"}, countId: {$push:"$countId"}, size: {$sum:1}}},
+
+      .then(function (dbCompanies) {
+        // If able to successfully find and associate all companies and counts, send them back to the client
+        res.json(dbCompanies);
+      })
+      .catch(function (err) {
+        // If an error occurs, send it back to the client
+        res.json(err);
+      });
   },
-  update: function(req, res) {
-    db.Book
-      .findOneAndUpdate({ _id: req.params.id }, req.body)
-      .then(dbModel => res.json(dbModel))
-      .catch(err => res.status(422).json(err));
+
+  // Load Last 30 Days Companies
+  last30days: function (req, res) {
+
+    console.log(moment().subtract(1, 'months').toDate())
+    
+    // Get all counts
+    db.Counts.aggregate([
+      { $match: { entry_date: { $gte: moment().subtract(1, 'months').toDate() } } },
+      { $project: { entry_date: 0, __v: 0 } }
+    ])
+      .then(function (dbCompanies) {
+
+        var count = []
+
+        dbCompanies.forEach((elemet) => {
+          count.push(ObjectId(`${elemet._id}`))
+        })
+
+        db.Companies.aggregate([
+          { $unwind: '$countId' },
+          { $match: { countId: { $in: count } } },
+          //{ $group: { _id: '$_id', name: { $first: '$name' }, countIds: { $sum: 1 } } },
+        ])
+
+          .then(function (results) {
+            res.json(results);
+          })
+      })
   },
-  remove: function(req, res) {
-    db.Book
-      .findById({ _id: req.params.id })
-      .then(dbModel => dbModel.remove())
-      .then(dbModel => res.json(dbModel))
-      .catch(err => res.status(422).json(err));
+
+  // Load Last 7 Days Companies
+  last7days: function (req, res) {
+
+    console.log(moment().subtract(7, 'days').toDate())
+
+    // Get all counts
+    db.Counts.aggregate([
+      { $match: { entry_date: { $gte: moment().subtract(7, 'days').toDate() } } },
+      { $project: { entry_date: 0, __v: 0 } }
+    ])
+      .then(function (dbCompanies) {
+
+        var count = []
+
+        dbCompanies.forEach((elemet) => {
+          count.push(ObjectId(`${elemet._id}`))
+        })
+
+        db.Companies.aggregate([
+          { $unwind: '$countId' },
+          { $match: { countId: { $in: count } } },
+          //{ $group: { _id: '$_id', name: { $first: '$name' }, countIds: { $sum: 1 } } },
+        ])
+
+          .then(function (results) {
+            res.json(results);
+          })
+      })
   }
 };

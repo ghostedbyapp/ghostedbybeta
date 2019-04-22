@@ -1,14 +1,19 @@
 var model = require("../models");
-const path = require("path");
 
 module.exports = function (app) {
 
-    // Save Books
-    app.post("/api/books", model.save);
+    // Save Company
+    app.post("/api/company", model.save);
 
-    // Get Saved Books
-    app.get("/api/savedBooks", model.load);
+    // Report Company
+    app.post("/api/report", model.report);
 
-    // Delete Book
-    app.delete("/api/books/:id", model.remove);
+    // Load Lifetime Companies
+    app.get("/api/loadLifetimeCompanies", model.loadLifetime);
+
+    // Load last 30 days
+    app.get("/api/last30days", model.last30days);
+
+    // Load last 7 days
+    app.get("/api/last7days", model.last7days);
 }
