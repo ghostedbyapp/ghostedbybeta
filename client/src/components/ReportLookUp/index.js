@@ -23,7 +23,8 @@ class ReportLookUp extends Component {
   state = {
     search: '',
     results: {},
-    isShowing: false
+    isShowing: false,
+    companyIsInDB: false
   };
 
   componentDidMount() {
@@ -35,6 +36,15 @@ class ReportLookUp extends Component {
     API.searchCompany(info)
     .then(result => {
       console.log(result)
+      if (result.data.length > 0) {
+        this.setState({
+          companyIsInDB: true
+        })
+      } else {
+        this.setState({
+          companyIsInDB: false
+        })
+      }
     })
   }
 
@@ -176,9 +186,13 @@ class ReportLookUp extends Component {
             {this.state.results.company_name}
           </ModalHeader>
           <ModalBody>
-            {this.state.results.company_name}
+            {this.state.companyIsInDB ? 
+              "This Company is in the db" :
+              "This Company is not in the database yet"
+            }
           </ModalBody>
           <ModalFooter>
+            <Button color="primary" onClick={this.saveCompany}>Report</Button>
             <Button color="primary" onClick={this.closeModalHandler}>Close</Button>
           </ModalFooter>
         </Modal>
