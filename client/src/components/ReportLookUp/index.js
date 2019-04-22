@@ -12,6 +12,7 @@ class ReportLookUp extends Component {
     });
   }
 
+
   // // Modal
   closeModalHandler = () => {
     this.setState({
@@ -27,6 +28,14 @@ class ReportLookUp extends Component {
 
   componentDidMount() {
     this.loadLifetimeCompanies()
+  }
+
+  
+  searchCompany = info => {
+    API.searchCompany(info)
+    .then(result => {
+      console.log(result)
+    })
   }
 
   // Load top 10 companies from the database
@@ -113,15 +122,18 @@ class ReportLookUp extends Component {
 
     // Get company name and add to object
     companyResult['company_name'] = place.name;
+    
+    this.searchCompany(companyResult);
 
     // Clear search text input and add all company info
     this.setState({
       search: '',
-      results: companyResult
+      results: companyResult,
+      isShowing: true
     });
 
   }
-  
+
   // Save company to database
   saveCompany = companyInfo => {
     API.saveCompany(companyInfo)
@@ -160,6 +172,9 @@ class ReportLookUp extends Component {
       your job search.</p>
         <input type="text" id="lookup-company" value={this.state.search} onChange={this.handleInputChange} className="form-control" />
         <Modal isOpen={this.state.isShowing}>
+          <ModalHeader>
+            {this.state.results.company_name}
+          </ModalHeader>
           <ModalBody>
             {this.state.results.company_name}
           </ModalBody>
