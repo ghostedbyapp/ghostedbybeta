@@ -25,6 +25,7 @@ class ReportLookUp extends Component {
     results: {},
     isShowing: false,
     companyIsInDB: false
+    // searchedCompInfo: {}
   };
 
   componentDidMount() {
