@@ -5,6 +5,7 @@ import API from "../../utils"
 
 class ReportLookUp extends Component {
 
+
   // Modal
   openModalHandler = () => {
     this.setState({
@@ -30,6 +31,16 @@ class ReportLookUp extends Component {
 
   componentDidMount() {
     this.loadLifetimeCompanies()
+
+  state = {
+    search: '',
+    resutls: {},
+    isShowing: false
+  };
+
+  componentDidMount() {
+    this.last30days()
+    this.renderPlaces()
   }
 
   
@@ -86,8 +97,25 @@ class ReportLookUp extends Component {
     this.setState({ search: event.target.value });
   }
 
-  initAutoComplete = () => {
 
+  initAutoComplete = () => {
+  // Load top 10 companies from the database
+  loadLifetimeCompanies = () => {
+    API.loadLifetimeCompanies()
+      .then((data) => {
+        console.log("lifetime", data)
+      })
+  }
+
+  // Load last 30 days from the database
+  last30days = () => {
+    API.last30days()
+      .then((data) => {
+        console.log("last30days", data)
+      })
+  }
+
+  initAutocomplete = () => {
     // Create the autocomplete object, restricting the search predictions to
     // geographical location types.
     this.autocomplete = new window.google.maps.places.Autocomplete(
@@ -126,7 +154,7 @@ class ReportLookUp extends Component {
 
       // User entered the name of a Place that was not suggested and
       // pressed the Enter key, or the Place Details request failed.
-      window.alert("Company " + place.name + " is not in our database, please reenter with a valid company name.");
+      window.alert("No details available for input: '" + place.name + "'");
       return;
     }
 
@@ -176,7 +204,8 @@ class ReportLookUp extends Component {
           console.log(data.data.companyInfo)
         }
       })
-  }
+}
+  
 
   // Report company and add new count to database
   reportCompany = companyInfo => {
@@ -188,7 +217,9 @@ class ReportLookUp extends Component {
 
   render() {
     return (
-      // {/* // left side of home page to report or lookup a company */}
+
+
+      // left side of home page to report or lookup a company
       <div className="col-sm-6 col-lg-6">
         <h1 className="block-titleData frequency text-white">Report Companies Who Ghost Interview Candidates</h1>
         <p className="lead mb-4 text-white">Report violators. Research trending companies. Become more productive in
@@ -214,8 +245,6 @@ class ReportLookUp extends Component {
           </ModalFooter>
         </Modal>
       </div>
-    
-      
     )
   }
 }
