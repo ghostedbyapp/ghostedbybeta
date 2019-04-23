@@ -32,11 +32,20 @@ class ReportLookUp extends Component {
   }
 
   
-  searchCompany = info => {
-    API.searchCompany(info)
+  searchCompany = () => {
+    const searchedCompany = this.state.results;
+
+    API.searchCompany(
+      searchedCompany.company_name,
+      // street_number: searchedCompany.street_number,
+      // route: searchedCompany.route,
+      // locality: searchedCompany.locality,
+      // administrative_area_level_1: searchedCompany.administrative_area_level_1,
+      // postal_code: searchedCompany.postal_code
+    )
     .then(result => {
       console.log(result)
-      if (result.data.length > 0) {
+      if (result.data) {
         this.setState({
           companyIsInDB: true
         })
@@ -132,8 +141,9 @@ class ReportLookUp extends Component {
 
     // Get company name and add to object
     companyResult['company_name'] = place.name;
+    console.log("result:", companyResult)
     
-    this.searchCompany(companyResult);
+    
 
     // Clear search text input and add all company info
     this.setState({
@@ -142,11 +152,13 @@ class ReportLookUp extends Component {
       isShowing: true
     });
 
+    this.searchCompany();
+
   }
 
   // Save company to database
-  saveCompany = companyInfo => {
-    API.saveCompany(companyInfo)
+  saveCompany = () => {
+    API.saveCompany(this.state.results)
       .then((data) => {
 
         // If company was not save and already in the database
@@ -187,12 +199,16 @@ class ReportLookUp extends Component {
           </ModalHeader>
           <ModalBody>
             {this.state.companyIsInDB ? 
-              "This Company is in the db" :
+              "This Company has been reported" :
               "This Company is not in the database yet"
             }
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={this.saveCompany}>Report</Button>
+            <Button color="primary" onClick={
+              this.state.companyIsInDB ?
+                this.reportCompany :
+                this.saveCompany
+              }>Report</Button>
             <Button color="primary" onClick={this.closeModalHandler}>Close</Button>
           </ModalFooter>
         </Modal>

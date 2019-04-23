@@ -9,7 +9,7 @@ module.exports = function (app) {
     app.post("/api/report", model.report);
 
     // Search a Company
-    app.get("/api/company", model.search)
+    app.get("/api/company/:company_name", model.search)
 
     // Load Lifetime Companies
     app.get("/api/loadLifetimeCompanies", model.loadLifetime);

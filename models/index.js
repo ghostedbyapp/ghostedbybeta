@@ -5,12 +5,12 @@ var ObjectId = require('mongoose').Types.ObjectId;
 module.exports = {
 
   search: function(req, res) {
-    db.Companies.find({
-      name: req.body.company_name,
-      address: `${req.body.street_number} ${req.body.route}`,
-      city: req.body.locality,
-      state: req.body.administrative_area_level_1,
-      zipcode: req.body.postal_code
+    db.Companies.findOne({
+      name: req.params.company_name,
+      // address: `${req.params.street_number} ${req.params.route}`,
+      // city: req.params.locality,
+      // state: req.params.administrative_area_level_1,
+      // zipcode: req.params.postal_code
     }).then(function (searchedCompany) {
       res.json(searchedCompany)
     }).catch(err => res.status(422).json(err))

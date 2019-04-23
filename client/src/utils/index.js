@@ -3,9 +3,10 @@ import axios from "axios";
 export default {
   // Search a company without saving
   searchCompany: function(companyInfo) {
-    return axios.get("/api/company", companyInfo)
+    console.log("axios:", companyInfo)
+    return axios.get("/api/company/" + companyInfo)
   },
-  
+
   // Saves a Company info to the database
   saveCompany: function (companyInfo) {
     return axios.post("/api/company", companyInfo);
