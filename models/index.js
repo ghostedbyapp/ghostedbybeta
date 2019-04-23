@@ -4,7 +4,6 @@ var ObjectId = require('mongoose').Types.ObjectId;
 
 module.exports = {
 
-
   search: function(req, res) {
     db.Companies.findOne({
       name: req.params.company_name,
@@ -116,6 +115,7 @@ module.exports = {
       .catch(function (err) {
         // If an error occurs, send it back to the client
         res.json(err);
+      });
   },
 
   // Load Last 30 Days Companies
@@ -149,7 +149,7 @@ module.exports = {
   },
 
   // Load Last 7 Days Companies
-    last7days: function (req, res) {
+  last7days: function (req, res) {
 
     console.log(moment().subtract(7, 'days').toDate())
 
