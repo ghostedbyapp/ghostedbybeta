@@ -1,6 +1,12 @@
 import axios from "axios";
 
 export default {
+  // Search a company without saving
+  searchCompany: function(companyInfo) {
+    console.log("axios:", companyInfo)
+    return axios.get("/api/company/" + companyInfo)
+  },
+
   // Saves a Company info to the database
   saveCompany: function (companyInfo) {
     return axios.post("/api/company", companyInfo);
@@ -21,15 +27,9 @@ export default {
     return axios.get("/api/last30days");
   },
 
-  // // Get saved books
-  // getSavedBooks: function () {
-  //   return axios.get("/api/savedBooks");
-  // },
-
-
-  // // Deletes the book with the given id
-  // deleteBook: function (id) {
-  //   return axios.delete("/api/books/" + id);
-  // },
-
+  // Load last 30 days from the database
+  last7days: function () {
+    return axios.get("/api/last7days");
+  }
+  
 };
