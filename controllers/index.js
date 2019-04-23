@@ -8,8 +8,9 @@ module.exports = function (app) {
     // Report Company
     app.post("/api/report", model.report);
 
+
     // Search a Company
-    app.get("/api/company/:company_name", model.search)
+    app.get("/api/company/:company_name/", model.search)
 
     // Load Lifetime Companies
     app.get("/api/loadLifetimeCompanies", model.loadLifetime);
@@ -17,6 +18,8 @@ module.exports = function (app) {
     // Load last 30 days
     app.get("/api/last30days", model.last30days);
 
+
     // Load last 7 days
     app.get("/api/last7days", model.last7days);
+
 }
