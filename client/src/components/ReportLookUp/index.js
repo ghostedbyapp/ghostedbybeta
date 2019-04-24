@@ -16,7 +16,8 @@ class ReportLookUp extends Component {
   // // Modal
   closeModalHandler = () => {
     this.setState({
-      isShowing: false
+      isShowing: false,
+      reportBtnClicked: false
     });
   }
 
@@ -24,8 +25,9 @@ class ReportLookUp extends Component {
     search: '',
     results: {},
     isShowing: false,
-    companyIsInDB: false
-    // searchedCompInfo: {}
+    companyIsInDB: false,
+    reportBtnClicked: false,
+    searchedCompInfo: {}
   };
 
   componentDidMount() {
@@ -48,7 +50,8 @@ class ReportLookUp extends Component {
       console.log(result)
       if (result.data) {
         this.setState({
-          companyIsInDB: true
+          companyIsInDB: true,
+          searchedCompInfo: result.data
         })
       } else {
         this.setState({
@@ -159,6 +162,10 @@ class ReportLookUp extends Component {
 
   // Save company to database
   saveCompany = () => {
+    this.setState({
+      reportBtnClicked: true
+    })
+
     API.saveCompany(this.state.results)
       .then((data) => {
 
@@ -170,6 +177,7 @@ class ReportLookUp extends Component {
             name: data.data.name
           }
           this.reportCompany(companyInfo);
+         
         }
         else {
           // Saved
@@ -198,20 +206,33 @@ class ReportLookUp extends Component {
           <ModalHeader>
             {this.state.results.company_name}
           </ModalHeader>
-          <ModalBody>
-            {this.state.companyIsInDB ? 
-              "This Company has been reported" :
-              "This Company is not in the database yet"
-            }
-          </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={
-              this.state.companyIsInDB ?
-                this.reportCompany :
-                this.saveCompany
-              }>Report</Button>
-            <Button color="primary" onClick={this.closeModalHandler}>Close</Button>
-          </ModalFooter>
+
+          {this.state.reportBtnClicked ? 
+            <ModalBody>
+              {this.state.results.company_name} has been successfully reported. 
+            </ModalBody>
+            :
+            <ModalBody>
+              {this.state.companyIsInDB ? 
+                `This company has been reported ${this.state.searchedCompInfo.countId.length} time(s)` :
+                "This Company is not in the database yet"
+              }
+            </ModalBody>
+          }
+         
+
+          {this.state.reportBtnClicked == true ? 
+            <ModalFooter>
+              {/* <Button color="primary" onClick={this.saveCompany}>Report</Button> */}
+              <Button color="primary" onClick={this.closeModalHandler}>Close</Button>
+            </ModalFooter>
+            :
+            <ModalFooter>
+              <Button color="primary" onClick={this.saveCompany}>Report</Button>
+              <Button color="primary" onClick={this.closeModalHandler}>Close</Button>
+            </ModalFooter>
+          }
+          
         </Modal>
       </div>
     
