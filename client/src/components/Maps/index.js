@@ -29,8 +29,8 @@ class Maps extends Component {
   renderMarkers = () => {
 
     var map = new window.google.maps.Map(document.getElementById('map'), {
-      center: { lat: 0, lng: 0 },
-      zoom: 1
+      center: { lat: 39.381266, lng: -97.922211 },
+      zoom: 3
     })
 
     // Add infowindow information
@@ -38,11 +38,13 @@ class Maps extends Component {
 
     this.state.companies.map(company => {
 
-      var contentString = `${company.name}`
+      var contentString = `<h4>${company.name}</h4></br>
+      <h5>Ghosted Count: ${company.countIds}</h5> `;
 
       var marker = new window.google.maps.Marker({
         position: { lat: company.lat, lng: company.lng },
-        map: map
+        map: map,
+        title: company.name
       })
  
       marker.addListener('click', function(){

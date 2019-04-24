@@ -1,4 +1,5 @@
 import React from "react";
+import "./mapDescription.css";
 
 function MapDescription() {
   return (
