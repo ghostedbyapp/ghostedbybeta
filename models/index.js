@@ -26,6 +26,8 @@ module.exports = {
             city: req.body.locality,
             state: req.body.administrative_area_level_1,
             zipcode: req.body.postal_code,
+            lat: req.body.lat,
+            lng: req.body.lng,
             entry_date: moment().toDate() //new Date()
           })
           .then(function (dbCompanies) {
@@ -84,8 +86,29 @@ module.exports = {
       })
   },
 
+  // Load ALL Companies
+  loadAllCompanies: function (req, res) {
+
+    db.Companies.aggregate([
+      { $unwind: '$countId' },
+      { $group: { _id: '$_id', name: { $first: '$name' }, lat: { $first: '$lat' }, lng: { $first: '$lng' }, countIds: { $sum: 1 } } },
+      { $sort: { countIds: -1 } }])
+
+      // Use the below code to show the count Ids
+      //{$group: {_id:"$_id", name:{$first: "$name"}, countId: {$push:"$countId"}, size: {$sum:1}}},
+
+      .then(function (dbCompanies) {
+        // If able to successfully find and associate all companies and counts, send them back to the client
+        res.json(dbCompanies);
+      })
+      .catch(function (err) {
+        // If an error occurs, send it back to the client
+        res.json(err);
+      });
+  },
+
   // Load Lifetime Companies
-  loadLifetime: function (req, res) {
+  loadTop10Companies: function (req, res) {
 
     db.Companies.aggregate([
       { $unwind: '$countId' },
@@ -110,7 +133,7 @@ module.exports = {
   last30days: function (req, res) {
 
     console.log(moment().subtract(1, 'months').toDate())
-    
+
     // Get all counts
     db.Counts.aggregate([
       { $match: { entry_date: { $gte: moment().subtract(1, 'months').toDate() } } },

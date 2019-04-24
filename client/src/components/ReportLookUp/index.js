@@ -5,17 +5,16 @@ class ReportLookUp extends Component {
 
   state = {
     search: '',
-    resutls: {},
-    isShowing: false
+    resutls: {}
   };
 
   componentDidMount() {
-    this.loadLifetimeCompanies()
+    this.loadTop10Companies()
   }
 
   // Load top 10 companies from the database
-  loadLifetimeCompanies = () => {
-    API.loadLifetimeCompanies()
+  loadTop10Companies = () => {
+    API.loadTop10Companies()
       .then((data) => {
         console.log("lifetime", data)
       })
@@ -85,6 +84,9 @@ class ReportLookUp extends Component {
       return;
     }
 
+    // Get company name and add to object
+    companyResult['company_name'] = place.name;
+
     // Get each component of the address from the place details,
     // and then fill-in the corresponding field on the form.
     for (var i = 0; i < place.address_components.length; i++) {
@@ -95,8 +97,8 @@ class ReportLookUp extends Component {
       }
     }
 
-    // Get company name and add to object
-    companyResult['company_name'] = place.name;
+    companyResult['lat'] = place.geometry.location.lat();
+    companyResult['lng'] = place.geometry.location.lng();
 
     // Clear search text input and add all company info
     this.setState({
@@ -139,7 +141,6 @@ class ReportLookUp extends Component {
 
   render() {
     return (
-
 
       // left side of home page to report or lookup a company
       <div className="col-sm-6 col-lg-6">
