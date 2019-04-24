@@ -1,35 +1,7 @@
 import React, { Component } from "react";
-// import Modal from "../Modal";
-import {Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 import API from "../../utils"
 
 class ReportLookUp extends Component {
-
-
-  // Modal
-  openModalHandler = () => {
-    this.setState({
-      isShowing: true
-    });
-  }
-
-
-  // // Modal
-  closeModalHandler = () => {
-    this.setState({
-      isShowing: false
-    });
-  }
-
-  state = {
-    search: '',
-    results: {},
-    isShowing: false,
-    companyIsInDB: false
-  };
-
-  componentDidMount() {
-    this.loadLifetimeCompanies()
 
   state = {
     search: '',
@@ -42,62 +14,15 @@ class ReportLookUp extends Component {
     this.renderPlaces()
   }
 
-  
-  searchCompany = () => {
-    const searchedCompany = this.state.results;
-
-    API.searchCompany(
-      searchedCompany.company_name,
-      // street_number: searchedCompany.street_number,
-      // route: searchedCompany.route,
-      // locality: searchedCompany.locality,
-      // administrative_area_level_1: searchedCompany.administrative_area_level_1,
-      // postal_code: searchedCompany.postal_code
-    )
-    .then(result => {
-      console.log(result)
-      if (result.data) {
-        this.setState({
-          companyIsInDB: true
-        })
-      } else {
-        this.setState({
-          companyIsInDB: false
-        })
-      }
-    })
-  }
-
-  // Load top 10 companies from the database
-  loadLifetimeCompanies = () => {
-    API.loadLifetimeCompanies()
-      .then((data) => {
-        console.log("lifetime", data)
-      })
-  }
-
-  // Load last 30 days from the database
-  last30days = () => {
-    API.last30days()
-      .then((data) => {
-        console.log("last30days", data)
-      })
-  }
-
-  // Load last 7 days from the database
-  last7days = () => {
-    API.last7days()
-      .then((data) => {
-        console.log("last7days", data)
-      })
-  }
-
   handleInputChange = event => {
     this.setState({ search: event.target.value });
   }
 
+  renderPlaces = () => {
+    loadScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyBbyk8K108Ko9KQlMx7jtjPmga2wn0IpJs&libraries=places&callback=initAutocomplete")
+    window.initAutocomplete = this.initAutocomplete
+  }
 
-  initAutoComplete = () => {
   // Load top 10 companies from the database
   loadLifetimeCompanies = () => {
     API.loadLifetimeCompanies()
@@ -115,6 +40,7 @@ class ReportLookUp extends Component {
   }
 
   initAutocomplete = () => {
+
     // Create the autocomplete object, restricting the search predictions to
     // geographical location types.
     this.autocomplete = new window.google.maps.places.Autocomplete(
@@ -169,24 +95,20 @@ class ReportLookUp extends Component {
 
     // Get company name and add to object
     companyResult['company_name'] = place.name;
-    console.log("result:", companyResult)
-    
-    
 
     // Clear search text input and add all company info
     this.setState({
       search: '',
-      results: companyResult,
-      isShowing: true
+      resutls: companyResult
     });
 
-    this.searchCompany();
-
+    // Save company to database
+    this.saveCompany(this.state.resutls);
   }
 
   // Save company to database
-  saveCompany = () => {
-    API.saveCompany(this.state.results)
+  saveCompany = companyInfo => {
+    API.saveCompany(companyInfo)
       .then((data) => {
 
         // If company was not save and already in the database
@@ -203,8 +125,7 @@ class ReportLookUp extends Component {
           console.log(data.data.companyInfo)
         }
       })
-}
-  
+  }
 
   // Report company and add new count to database
   reportCompany = companyInfo => {
@@ -224,28 +145,18 @@ class ReportLookUp extends Component {
         <p className="lead mb-4 text-white">Report violators. Research trending companies. Become more productive in
       your job search.</p>
         <input type="text" id="lookup-company" value={this.state.search} onChange={this.handleInputChange} className="form-control" />
-        <Modal isOpen={this.state.isShowing}>
-          <ModalHeader>
-            {this.state.results.company_name}
-          </ModalHeader>
-          <ModalBody>
-            {this.state.companyIsInDB ? 
-              "This Company has been reported" :
-              "This Company is not in the database yet"
-            }
-          </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={
-              this.state.companyIsInDB ?
-                this.reportCompany :
-                this.saveCompany
-              }>Report</Button>
-            <Button color="primary" onClick={this.closeModalHandler}>Close</Button>
-          </ModalFooter>
-        </Modal>
       </div>
     )
   }
+}
+
+function loadScript(url) {
+  var index = window.document.getElementsByTagName('script')[0]
+  var script = window.document.createElement('script')
+  script.src = url
+  script.async = true
+  script.defer = true
+  index.parentNode.insertBefore(script, index)
 }
 
 export default ReportLookUp;

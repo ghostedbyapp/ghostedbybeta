@@ -4,19 +4,6 @@ var ObjectId = require('mongoose').Types.ObjectId;
 
 module.exports = {
 
-
-  search: function(req, res) {
-    db.Companies.findOne({
-      name: req.params.company_name,
-      // address: `${req.params.street_number} ${req.params.route}`,
-      // city: req.params.locality,
-      // state: req.params.administrative_area_level_1,
-      // zipcode: req.params.postal_code
-    }).then(function (searchedCompany) {
-      res.json(searchedCompany)
-    }).catch(err => res.status(422).json(err))
-  },
-
   save: function (req, res) {
 
     // Search for duplicate companies
@@ -116,65 +103,136 @@ module.exports = {
       .catch(function (err) {
         // If an error occurs, send it back to the client
         res.json(err);
+      });
   },
 
   // Load Last 30 Days Companies
   last30days: function (req, res) {
 
-    console.log(moment().subtract(1, 'months').toDate())
-    
-    // Get all counts
+    // db.Companies.aggregate([
+    //   { $unwind: "$countId" },
+    //   { $group: { _id: "$_id", name: { $first: "$name" }, countId: { $push: "$countId" }, size: { $sum: 1 } } }
+    // ])
+    //   .then(function (dbCompanies) {
+    //     console.log(dbCompanies)
+
+    //     db.Companies.populate(
+    //       dbCompanies,
+    //       {
+    //         path: 'countId',
+    //         match: { 'entry_date': { $gt: moment().toDate() } }
+    //       },
+    //       function (err, populatedTransactions) {
+    //         res.json(populatedTransactions);
+    //       });
+    //   })
+
+
+    // db.Companies.aggregate([
+    //   { $unwind: '$countId' },
+    //   //{ $match: { 'entry_date': { $gte: moment().toDate() } } },
+    //   { $group: { _id: "$_id", name: { $first: "$name" }, countId: { $push: "$countId" }, size: { $sum: 1 } } },
+    //   //{ $project: { countId: 1, name: '$name', _id: 0 } }
+    // ])
+    //   .then(function (err, transactions) {
+
+    //     console.log("transactions", transactions)
+
+    //     db.Companies.populate(
+    //       transactions,
+    //       {
+    //         path: 'countId',
+    //         match: { 'entry_date': { $lt: moment().toDate() } }
+    //       },
+    //       function (err, populatedTransactions) {
+    //         res.json(populatedTransactions);
+    //       });
+    //   });
+
+    // Find all Companies
     db.Counts.aggregate([
-      { $match: { entry_date: { $gte: moment().subtract(1, 'months').toDate() } } },
+      { $match: { entry_date: { $gt: moment().toDate() } } },
       { $project: { entry_date: 0, __v: 0 } }
     ])
       .then(function (dbCompanies) {
 
-        var count = []
+        //console.log("dbCompanies", dbCompanies)
 
-        dbCompanies.forEach((elemet) => {
-          count.push(ObjectId(`${elemet._id}`))
-        })
-
-        db.Companies.aggregate([
-          { $unwind: '$countId' },
-          { $match: { countId: { $in: count } } },
-          //{ $group: { _id: '$_id', name: { $first: '$name' }, countIds: { $sum: 1 } } },
-        ])
-
-          .then(function (results) {
-            res.json(results);
+        db.Companies.find({ 'countId': { $in: dbCompanies }})
+          .then(function (test) {
+            res.json(test);
           })
       })
-  },
 
-  // Load Last 7 Days Companies
-    last7days: function (req, res) {
 
-    console.log(moment().subtract(7, 'days').toDate())
+    // db.Counts.find({
+    //   entry_date: { $gt: moment().toDate() }
+    // })
+    //   .then(function (transactions) {
 
-    // Get all counts
-    db.Counts.aggregate([
-      { $match: { entry_date: { $gte: moment().subtract(7, 'days').toDate() } } },
-      { $project: { entry_date: 0, __v: 0 } }
-    ])
-      .then(function (dbCompanies) {
+    //     console.log("transactions", transactions)
 
-        var count = []
+    //     db.Companies.aggregate([
+    //       { $unwind: '$countId' },
+    //       { $match: { entry_date: { $eq: transactions } } },
+    //       { $group: { _id: "$_id", name: { $first: "$name" }, countId: { $push: "$countId" }, size: { $sum: 1 } } },
+    //       //{ $project: { countId: 1, name: '$name', _id: 0 } }
+    //     ])
 
-        dbCompanies.forEach((elemet) => {
-          count.push(ObjectId(`${elemet._id}`))
-        })
+    //     // db.Companies.find({ countId: { $eq: transactions.entry_date }
+    //     // })
+    //      .then(function (dbCompanies) {
 
-        db.Companies.aggregate([
-          { $unwind: '$countId' },
-          { $match: { countId: { $in: count } } },
-          //{ $group: { _id: '$_id', name: { $first: '$name' }, countIds: { $sum: 1 } } },
-        ])
+    //        console.log("dbCompanies", dbCompanies)
+    //      })
+    // .catch(function (err) {
+    //   // If an error occurs, send it back to the client
+    //   res.json(err);
+    // })
+    // transactions,
+    // {
+    //   path: 'countId',
+    //   select: 'name',
+    //   match: { entry_date: { $eq: transactions.entry_date }}
+    // },
+    // function (err, pop) {
+    //   res.json(pop);
+    // })
+    //})
 
-          .then(function (results) {
-            res.json(results);
-          })
-      })
+    // Specify that we want to populate the retrieved companies with any associated counts
+    // .populate({
+    //   path: 'Companies',
+    //   match: { entry_date: { $gt: moment().toDate() } },
+    // })
+
+    // //.populate('Companies', null, {entry_date: { $gt: moment().toDate() } })
+
+    // .then(function (dbCompanies) {
+
+    // res.json(dbCompanies);
+    //})
+
+
+    // // Find all Companies
+    // db.Counts.find({entry_date: { $gt: moment().toDate() }})
+
+
+    //     // Specify that we want to populate the retrieved companies with any associated counts
+    //     // .populate({
+    //     //   path: 'Companies',
+    //     //   match: { entry_date: { $gt: moment().toDate() } },
+    //     // })
+
+    //     // //.populate('Companies', null, {entry_date: { $gt: moment().toDate() } })
+
+    //     .then(function (dbCompanies) {
+
+    //       res.json(dbCompanies);
+    //     })
+    //     .catch(function (err) {
+    //       // If an error occurs, send it back to the client
+    //       res.json(err);
+    //     });
   }
 };

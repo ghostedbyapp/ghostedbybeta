@@ -5,12 +5,9 @@
   "private": true,
   "proxy": "http://localhost:3001/",
   "dependencies": {
-    "plotly.js": "^1.47.3",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
-    "react-plotly.js": "^2.3.0",
-    "react-scripts": "^2.1.1",
-    "reactstrap": "^8.0.0"
+    "react-scripts": "^2.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
