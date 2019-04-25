@@ -5,27 +5,16 @@ class ReportLookUp extends Component {
 
   state = {
     search: '',
-    resutls: {},
-    isShowing: false
+    resutls: {}
   };
 
   componentDidMount() {
-    this.last30days()
-    this.renderPlaces()
-  }
-
-  handleInputChange = event => {
-    this.setState({ search: event.target.value });
-  }
-
-  renderPlaces = () => {
-    loadScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyBbyk8K108Ko9KQlMx7jtjPmga2wn0IpJs&libraries=places&callback=initAutocomplete")
-    window.initAutocomplete = this.initAutocomplete
+    this.loadTop10Companies()
   }
 
   // Load top 10 companies from the database
-  loadLifetimeCompanies = () => {
-    API.loadLifetimeCompanies()
+  loadTop10Companies = () => {
+    API.loadTop10Companies()
       .then((data) => {
         console.log("lifetime", data)
       })
@@ -39,7 +28,19 @@ class ReportLookUp extends Component {
       })
   }
 
-  initAutocomplete = () => {
+  // Load last 7 days from the database
+  last7days = () => {
+    API.last7days()
+      .then((data) => {
+        console.log("last7days", data)
+      })
+  }
+
+  handleInputChange = event => {
+    this.setState({ search: event.target.value });
+  }
+
+  initAutoComplete = () => {
 
     // Create the autocomplete object, restricting the search predictions to
     // geographical location types.
@@ -83,6 +84,9 @@ class ReportLookUp extends Component {
       return;
     }
 
+    // Get company name and add to object
+    companyResult['company_name'] = place.name;
+
     // Get each component of the address from the place details,
     // and then fill-in the corresponding field on the form.
     for (var i = 0; i < place.address_components.length; i++) {
@@ -93,8 +97,8 @@ class ReportLookUp extends Component {
       }
     }
 
-    // Get company name and add to object
-    companyResult['company_name'] = place.name;
+    companyResult['lat'] = place.geometry.location.lat();
+    companyResult['lng'] = place.geometry.location.lng();
 
     // Clear search text input and add all company info
     this.setState({
@@ -138,7 +142,6 @@ class ReportLookUp extends Component {
   render() {
     return (
 
-
       // left side of home page to report or lookup a company
       <div className="col-sm-6 col-lg-6">
         <h1 className="block-titleData frequency text-white">Report Companies Who Ghost Interview Candidates</h1>
@@ -148,15 +151,6 @@ class ReportLookUp extends Component {
       </div>
     )
   }
-}
-
-function loadScript(url) {
-  var index = window.document.getElementsByTagName('script')[0]
-  var script = window.document.createElement('script')
-  script.src = url
-  script.async = true
-  script.defer = true
-  index.parentNode.insertBefore(script, index)
 }
 
 export default ReportLookUp;
