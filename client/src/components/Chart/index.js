@@ -10,22 +10,24 @@ function Chart(props) {
       <Plot 
         data={[
           {
-            x: ["a",'b','c','d','e','f','g','h','i','j'],
-            y: [1,2,3,4,5,6,7,8,9,10],
-            text: [1,2,3,4,5,6,7,8,9,10],
+            x: props.companies,
+            y: props.counts,
+            text: props.companies,
             type: 'bar'
           }
         ]}
         layout={{
+          autosize: false,
           width: 500,
           height: 400,
           title: "Dummy",
           xaxis: {
             fixedrange: true,
-            tickangle: -45
+            tickangle: -25
           },
           yaxis: {
-            fixedrange: true
+            fixedrange: true,
+            automargin: true,
           }
         }}
         config = {{

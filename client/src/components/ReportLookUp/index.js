@@ -24,6 +24,7 @@ class ReportLookUp extends Component {
   state = {
     search: '',
     results: {},
+    top10: {},
     isShowing: false,
     companyIsInDB: false,
     reportBtnClicked: false,
@@ -31,7 +32,7 @@ class ReportLookUp extends Component {
   };
 
   componentDidMount() {
-    this.loadLifetimeCompanies()
+    // this.loadLifetimeCompanies()
   }
 
   
@@ -61,19 +62,37 @@ class ReportLookUp extends Component {
     })
   }
 
-  // Load top 10 companies from the database
-  loadLifetimeCompanies = () => {
-    API.loadLifetimeCompanies()
-      .then((data) => {
-        console.log("lifetime", data)
-      })
+  setArrays = data => {
+    let nameArray = []
+    let countArray = []
+    for (let i in data.data) {
+      nameArray.push(data.data[i].name);
+      countArray.push(data.data[i].countIds)
+    }
+
+    this.setState({
+      top10 : {
+        names: nameArray,
+        counts: countArray
+      }
+    })
   }
+
+  // Load top 10 companies from the database
+  // loadLifetimeCompanies = () => {
+  //   API.loadLifetimeCompanies()
+  //     .then((data) => {
+  //       console.log("lifetime", data)
+  //       this.setArrays(data);
+  //     })
+  // }
 
   // Load last 30 days from the database
   last30days = () => {
     API.last30days()
       .then((data) => {
         console.log("last30days", data)
+        this.setArrays(data);
       })
   }
 
@@ -82,6 +101,7 @@ class ReportLookUp extends Component {
     API.last7days()
       .then((data) => {
         console.log("last7days", data)
+        this.setArrays(data);
       })
   }
 

@@ -10,11 +10,59 @@ import Maps from "./components/Maps";
 import Definition from "./components/Definition";
 import SomeFacts from "./components/SomeFacts";
 import Footer from "./components/Footer";
+import API from "./utils/index"
 
 class App extends Component {
+  state = {
+    top10: {}
+  }
+
+  setArrays = data => {
+    let nameArray = []
+    let countArray = []
+    for (let i in data.data) {
+      nameArray.push(data.data[i].name);
+      countArray.push(data.data[i].countIds)
+    }
+
+    this.setState({
+      top10 : {
+        names: nameArray,
+        counts: countArray
+      }
+    })
+  }
+
+  // Load top 10 companies from the database
+  loadLifetimeCompanies = () => {
+    API.loadLifetimeCompanies()
+      .then((data) => {
+        console.log("lifetime", data)
+        this.setArrays(data);
+      })
+  }
+
+  // Load last 30 days from the database
+  last30days = () => {
+    API.last30days()
+      .then((data) => {
+        console.log("last30days", data)
+        this.setArrays(data);
+      })
+  }
+
+  // Load last 7 days from the database
+  last7days = () => {
+    API.last7days()
+      .then((data) => {
+        console.log("last7days", data)
+        this.setArrays(data);
+      })
+  }
 
   componentDidMount() {
-    this.renderMapsAndPlaces()
+    this.renderMapsAndPlaces();
+    this.loadLifetimeCompanies();
   }
 
   renderMapsAndPlaces = () => {
@@ -35,7 +83,10 @@ class App extends Component {
           <NavBar />
           <LookUpChartWrapper>
             <ReportLookUp ref="placesApi" />
-            <Chart />
+            <Chart 
+              companies= {this.state.top10.names}
+              counts= {this.state.top10.counts}
+            />
           </LookUpChartWrapper>
         </MainWrapper>
         <MapDescriptionMapWrapper>
