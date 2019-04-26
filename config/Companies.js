@@ -22,6 +22,12 @@ var CompanySchema = new Schema({
 	zipcode: {
 		type: String
 	},
+	lat: {
+		type: Number
+	},
+	lng: {
+		type: Number
+	},
 	entry_date: {
 		type: Date
 	},

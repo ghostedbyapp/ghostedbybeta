@@ -1,13 +1,56 @@
 import React, { Component } from "react";
-import "./maps.css"; 
+import API from "../../utils"
+import "./maps.css";
 
 class Maps extends Component {
 
+  state = {
+    companies: []
+  };
+
+  // Load all companies from the database
+  loadAllCompanies = () => {
+    API.loadAllCompanies()
+      .then((data) => {
+
+        this.setState({ companies: data.data })
+
+        // Render the map
+        this.renderMarkers()
+      })
+  }
+
   initMap = () => {
 
+    // Load all companies before rendering the map
+    this.loadAllCompanies()
+  }
+
+  renderMarkers = () => {
+
     var map = new window.google.maps.Map(document.getElementById('map'), {
-      center: { lat: 0, lng: 0 },
-      zoom: 1
+      center: { lat: 39.381266, lng: -97.922211 },
+      zoom: 3
+    })
+
+    // Add infowindow information
+    var infoWindow = new window.google.maps.InfoWindow();
+
+    this.state.companies.map(company => {
+
+      var contentString = `<h4>${company.name}</h4></br>
+      <h5>Ghosted Count: ${company.countIds}</h5> `;
+
+      var marker = new window.google.maps.Marker({
+        position: { lat: company.lat, lng: company.lng },
+        map: map,
+        title: company.name
+      })
+ 
+      marker.addListener('click', function(){
+        infoWindow.setContent(contentString)
+        infoWindow.open(map,marker)
+      })
     })
   }
 

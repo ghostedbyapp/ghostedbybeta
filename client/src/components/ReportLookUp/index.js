@@ -30,11 +30,6 @@ class ReportLookUp extends Component {
     reportBtnClicked: false,
     searchedCompInfo: {}
   };
-
-  componentDidMount() {
-    // this.loadLifetimeCompanies()
-  }
-
   
   searchCompany = () => {
     const searchedCompany = this.state.results;
@@ -60,6 +55,17 @@ class ReportLookUp extends Component {
         })
       }
     })
+  }
+  componentDidMount() {
+    this.loadTop10Companies()
+  }
+
+  // Load top 10 companies from the database
+  loadTop10Companies = () => {
+    API.loadTop10Companies()
+      .then((data) => {
+        console.log("lifetime", data)
+      })
   }
 
   setArrays = data => {
@@ -149,9 +155,12 @@ class ReportLookUp extends Component {
 
       // User entered the name of a Place that was not suggested and
       // pressed the Enter key, or the Place Details request failed.
-      window.alert("Company " + place.name + " is not in our database, please reenter with a valid company name.");
+      window.alert("No details available for input: '" + place.name + "'");
       return;
     }
+
+    // Get company name and add to object
+    companyResult['company_name'] = place.name;
 
     // Get each component of the address from the place details,
     // and then fill-in the corresponding field on the form.
@@ -168,6 +177,8 @@ class ReportLookUp extends Component {
     console.log("result:", companyResult)
     
     
+    companyResult['lat'] = place.geometry.location.lat();
+    companyResult['lng'] = place.geometry.location.lng();
 
     // Clear search text input and add all company info
     this.setState({
@@ -216,7 +227,8 @@ class ReportLookUp extends Component {
 
   render() {
     return (
-      // {/* // left side of home page to report or lookup a company */}
+
+      // left side of home page to report or lookup a company
       <div className="col-sm-6 col-lg-6">
         <h1 className="block-titleData frequency text-white">Report Companies Who Ghost Interview Candidates</h1>
         <p className="lead mb-4 text-white">Report violators. Research trending companies. Become more productive in
@@ -255,8 +267,6 @@ class ReportLookUp extends Component {
           
         </Modal>
       </div>
-    
-      
     )
   }
 }
