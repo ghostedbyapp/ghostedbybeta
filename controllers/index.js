@@ -12,7 +12,7 @@ module.exports = function (app) {
     app.get("/api/company/:company_name", model.search)
 
     // Load Lifetime Companies
-    app.get("/api/loadLifetimeCompanies", model.loadLifetime);
+    // app.get("/api/loadLifetimeCompanies", model.loadLifetime);
     // Load All Companies
     app.get("/api/loadAllCompanies", model.loadAllCompanies);
 

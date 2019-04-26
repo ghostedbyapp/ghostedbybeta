@@ -20,25 +20,26 @@ class App extends Component {
     table: "",
   }
 
-  setArrays = data => {
-    let nameArray = []
-    let countArray = []
-    for (let i in data.data) {
-      nameArray.push(data.data[i].name);
-      countArray.push(data.data[i].countIds)
-    }
+  // Used for to pass company information to the bar chart in the form of arrays
+  // setArrays = data => {
+  //   let nameArray = []
+  //   let countArray = []
+  //   for (let i in data.data) {
+  //     nameArray.push(data.data[i].name);
+  //     countArray.push(data.data[i].countIds)
+  //   }
 
-    this.setState({
-      top10 : {
-        names: nameArray,
-        counts: countArray
-      }
-    })
-  }
+  //   this.setState({
+  //     top10 : {
+  //       names: nameArray,
+  //       counts: countArray
+  //     }
+  //   })
+  // }
 
   // Load top 10 companies from the database
-  loadLifetimeCompanies = () => {
-    API.loadLifetimeCompanies()
+  loadTop10Companies = () => {
+    API.loadTop10Companies()
       .then((data) => {
         console.log("lifetime", data)
         this.getRows(data);
@@ -72,9 +73,10 @@ class App extends Component {
       })
   }
 
+  // The page will load the lifetime top 10 by default
   componentDidMount() {
     this.renderMapsAndPlaces();
-    this.loadLifetimeCompanies()
+    this.loadTop10Companies()
     // this.last30days()
     // this.last7days()
   }
@@ -90,7 +92,7 @@ class App extends Component {
     this.refs.mapsApi.initMap();
  }
  
-
+  // Creates an array of row elements containing the top 10 companies
   getRows = (data) => {
     // console.log(data.data[0].name)
     let rows = []
@@ -122,7 +124,7 @@ class App extends Component {
             <Top10 
               title= {this.state.title}
               rows= {this.state.rows}
-              lifetime= {this.loadLifetimeCompanies}
+              lifetime= {this.loadTop10Companies}
               thirtyDays= {this.last30days}
               sevenDays= {this.last7days}
             />
