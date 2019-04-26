@@ -16,7 +16,8 @@ import Top10 from "./components/Table"
 class App extends Component {
   state = {
     top10: {},
-    rows : []
+    rows : [],
+    table: "",
   }
 
   setArrays = data => {
@@ -42,6 +43,9 @@ class App extends Component {
         console.log("lifetime", data)
         this.getRows(data);
       })
+    this.setState({
+      title: "Top 10 Reported Companies"
+    })
   }
 
   // Load last 30 days from the database
@@ -51,6 +55,9 @@ class App extends Component {
         console.log("last30days", data)
         this.getRows(data);
       })
+    this.setState({
+      title: "Top 10 Reported Companies in the Past 30 Days"
+    })
   }
 
   // Load last 7 days from the database
@@ -59,12 +66,17 @@ class App extends Component {
       .then((data) => {
         console.log("last7days", data)
         this.getRows(data);
+    this.setState({
+      title: "Top 10 Reported Companies in the Past 7 Days"
+    })
       })
   }
 
   componentDidMount() {
     this.renderMapsAndPlaces();
     this.loadLifetimeCompanies()
+    // this.last30days()
+    // this.last7days()
   }
 
   renderMapsAndPlaces = () => {
@@ -83,7 +95,6 @@ class App extends Component {
     // console.log(data.data[0].name)
     let rows = []
     for (let i in data.data) {
-      console.log(data.data[i].name)
         rows.push(
           <tr>
               <td>{data.data[i].name}</td>
@@ -96,6 +107,7 @@ class App extends Component {
     }
   }
 
+  // switchTableHeader = ()
   render() {
     return (
       <div>
@@ -108,7 +120,11 @@ class App extends Component {
               counts= {this.state.top10.counts}
             /> */}
             <Top10 
+              title= {this.state.title}
               rows= {this.state.rows}
+              lifetime= {this.loadLifetimeCompanies}
+              thirtyDays= {this.last30days}
+              sevenDays= {this.last7days}
             />
           </LookUpChartWrapper>
         </MainWrapper>

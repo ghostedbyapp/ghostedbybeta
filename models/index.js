@@ -129,7 +129,7 @@ module.exports = {
       { $project: { entry_date: 0, __v: 0 } }
     ])
       .then(function (dbCompanies) {
-
+        console.log(dbCompanies)
         var count = []
 
         dbCompanies.forEach((elemet) => {
