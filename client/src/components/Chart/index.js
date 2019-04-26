@@ -13,17 +13,20 @@ function Chart(props) {
             x: props.companies,
             y: props.counts,
             text: props.companies,
-            type: 'bar'
+            type: 'bar',
+            name: "Qwerutuyiwoefdsfdsvscdvs"
           }
         ]}
         layout={{
+          showlegend: true,
           autosize: false,
           width: 500,
           height: 400,
+          pad: 4,
           title: "Dummy",
           xaxis: {
             fixedrange: true,
-            tickangle: -25
+            tickangle: -20
           },
           yaxis: {
             fixedrange: true,

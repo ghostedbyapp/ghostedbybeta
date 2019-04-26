@@ -11,10 +11,12 @@ import Definition from "./components/Definition";
 import SomeFacts from "./components/SomeFacts";
 import Footer from "./components/Footer";
 import API from "./utils/index"
+import Top10 from "./components/Table"
 
 class App extends Component {
   state = {
-    top10: {}
+    top10: {},
+    rows : []
   }
 
   setArrays = data => {
@@ -38,7 +40,7 @@ class App extends Component {
     API.loadLifetimeCompanies()
       .then((data) => {
         console.log("lifetime", data)
-        this.setArrays(data);
+        this.getRows(data);
       })
   }
 
@@ -47,7 +49,7 @@ class App extends Component {
     API.last30days()
       .then((data) => {
         console.log("last30days", data)
-        this.setArrays(data);
+        this.getRows(data);
       })
   }
 
@@ -56,13 +58,13 @@ class App extends Component {
     API.last7days()
       .then((data) => {
         console.log("last7days", data)
-        this.setArrays(data);
+        this.getRows(data);
       })
   }
 
   componentDidMount() {
     this.renderMapsAndPlaces();
-    this.loadLifetimeCompanies();
+    this.loadLifetimeCompanies()
   }
 
   renderMapsAndPlaces = () => {
@@ -75,6 +77,24 @@ class App extends Component {
     this.refs.placesApi.initAutoComplete();
     this.refs.mapsApi.initMap();
  }
+ 
+
+  getRows = (data) => {
+    // console.log(data.data[0].name)
+    let rows = []
+    for (let i in data.data) {
+      console.log(data.data[i].name)
+        rows.push(
+          <tr>
+              <td>{data.data[i].name}</td>
+              <td>{data.data[i].countIds}</td>
+          </tr>
+        )
+        this.setState({
+          rows: rows
+        })
+    }
+  }
 
   render() {
     return (
@@ -83,9 +103,12 @@ class App extends Component {
           <NavBar />
           <LookUpChartWrapper>
             <ReportLookUp ref="placesApi" />
-            <Chart 
+            {/* <Chart 
               companies= {this.state.top10.names}
               counts= {this.state.top10.counts}
+            /> */}
+            <Top10 
+              rows= {this.state.rows}
             />
           </LookUpChartWrapper>
         </MainWrapper>
