@@ -3,43 +3,117 @@ import API from "../../utils"
 
 class ReportLookUp extends Component {
 
+  // Modal
+  openModalHandler = () => {
+    this.setState({
+      isShowing: true
+    });
+  }
+
+
+  // // Modal
+  closeModalHandler = () => {
+    this.setState({
+      isShowing: false,
+      reportBtnClicked: false
+    });
+  }
+
   state = {
     search: '',
-    resutls: {},
-    isShowing: false
+    results: {},
+    top10: {},
+    isShowing: false,
+    companyIsInDB: false,
+    reportBtnClicked: false,
+    searchedCompInfo: {}
   };
+  
+  searchCompany = () => {
+    const searchedCompany = this.state.results;
 
+    API.searchCompany(
+      searchedCompany.company_name,
+      // street_number: searchedCompany.street_number,
+      // route: searchedCompany.route,
+      // locality: searchedCompany.locality,
+      // administrative_area_level_1: searchedCompany.administrative_area_level_1,
+      // postal_code: searchedCompany.postal_code
+    )
+    .then(result => {
+      console.log(result)
+      if (result.data) {
+        this.setState({
+          companyIsInDB: true,
+          searchedCompInfo: result.data
+        })
+      } else {
+        this.setState({
+          companyIsInDB: false
+        })
+      }
+    })
+  }
   componentDidMount() {
-    this.last30days()
-    this.renderPlaces()
-  }
-
-  handleInputChange = event => {
-    this.setState({ search: event.target.value });
-  }
-
-  renderPlaces = () => {
-    loadScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyBbyk8K108Ko9KQlMx7jtjPmga2wn0IpJs&libraries=places&callback=initAutocomplete")
-    window.initAutocomplete = this.initAutocomplete
+    this.loadTop10Companies()
   }
 
   // Load top 10 companies from the database
-  loadLifetimeCompanies = () => {
-    API.loadLifetimeCompanies()
+  loadTop10Companies = () => {
+    API.loadTop10Companies()
       .then((data) => {
         console.log("lifetime", data)
       })
   }
+
+  setArrays = data => {
+    let nameArray = []
+    let countArray = []
+    for (let i in data.data) {
+      nameArray.push(data.data[i].name);
+      countArray.push(data.data[i].countIds)
+    }
+
+    this.setState({
+      top10 : {
+        names: nameArray,
+        counts: countArray
+      }
+    })
+  }
+
+  // Load top 10 companies from the database
+  // loadLifetimeCompanies = () => {
+  //   API.loadLifetimeCompanies()
+  //     .then((data) => {
+  //       console.log("lifetime", data)
+  //       this.setArrays(data);
+  //     })
+  // }
 
   // Load last 30 days from the database
   last30days = () => {
     API.last30days()
       .then((data) => {
         console.log("last30days", data)
+        this.setArrays(data);
       })
   }
 
-  initAutocomplete = () => {
+  // Load last 7 days from the database
+  last7days = () => {
+    API.last7days()
+      .then((data) => {
+        console.log("last7days", data)
+        this.setArrays(data);
+      })
+  }
+
+  handleInputChange = event => {
+    this.setState({ search: event.target.value });
+  }
+
+  initAutoComplete = () => {
 
     // Create the autocomplete object, restricting the search predictions to
     // geographical location types.
@@ -83,6 +157,9 @@ class ReportLookUp extends Component {
       return;
     }
 
+    // Get company name and add to object
+    companyResult['company_name'] = place.name;
+
     // Get each component of the address from the place details,
     // and then fill-in the corresponding field on the form.
     for (var i = 0; i < place.address_components.length; i++) {
@@ -95,6 +172,11 @@ class ReportLookUp extends Component {
 
     // Get company name and add to object
     companyResult['company_name'] = place.name;
+    console.log("result:", companyResult)
+    
+    
+    companyResult['lat'] = place.geometry.location.lat();
+    companyResult['lng'] = place.geometry.location.lng();
 
     // Clear search text input and add all company info
     this.setState({
@@ -107,8 +189,12 @@ class ReportLookUp extends Component {
   }
 
   // Save company to database
-  saveCompany = companyInfo => {
-    API.saveCompany(companyInfo)
+  saveCompany = () => {
+    this.setState({
+      reportBtnClicked: true
+    })
+
+    API.saveCompany(this.state.results)
       .then((data) => {
 
         // If company was not save and already in the database
@@ -119,6 +205,7 @@ class ReportLookUp extends Component {
             name: data.data.name
           }
           this.reportCompany(companyInfo);
+         
         }
         else {
           // Saved
@@ -138,13 +225,44 @@ class ReportLookUp extends Component {
   render() {
     return (
 
-
       // left side of home page to report or lookup a company
       <div className="col-sm-6 col-lg-6">
         <h1 className="block-titleData frequency text-white">Report Companies Who Ghost Interview Candidates</h1>
         <p className="lead mb-4 text-white">Report violators. Research trending companies. Become more productive in
       your job search.</p>
         <input type="text" id="lookup-company" value={this.state.search} onChange={this.handleInputChange} className="form-control" />
+        <Modal isOpen={this.state.isShowing}>
+          <ModalHeader>
+            {this.state.results.company_name}
+          </ModalHeader>
+
+          {this.state.reportBtnClicked ? 
+            <ModalBody>
+              {this.state.results.company_name} has been successfully reported. 
+            </ModalBody>
+            :
+            <ModalBody>
+              {this.state.companyIsInDB ? 
+                `This company has been reported ${this.state.searchedCompInfo.countId.length} time(s)` :
+                "This Company is not in the database yet"
+              }
+            </ModalBody>
+          }
+         
+
+          {this.state.reportBtnClicked == true ? 
+            <ModalFooter>
+              {/* <Button color="primary" onClick={this.saveCompany}>Report</Button> */}
+              <Button color="primary" onClick={this.closeModalHandler}>Close</Button>
+            </ModalFooter>
+            :
+            <ModalFooter>
+              <Button color="primary" onClick={this.saveCompany}>Report</Button>
+              <Button color="primary" onClick={this.closeModalHandler}>Close</Button>
+            </ModalFooter>
+          }
+          
+        </Modal>
       </div>
     )
   }
