@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-// import Modal from "../Modal";
-import {Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 import API from "../../utils"
 
 class ReportLookUp extends Component {
@@ -183,12 +181,11 @@ class ReportLookUp extends Component {
     // Clear search text input and add all company info
     this.setState({
       search: '',
-      results: companyResult,
-      isShowing: true
+      resutls: companyResult
     });
 
-    this.searchCompany();
-
+    // Save company to database
+    this.saveCompany(this.state.resutls);
   }
 
   // Save company to database
@@ -269,6 +266,15 @@ class ReportLookUp extends Component {
       </div>
     )
   }
+}
+
+function loadScript(url) {
+  var index = window.document.getElementsByTagName('script')[0]
+  var script = window.document.createElement('script')
+  script.src = url
+  script.async = true
+  script.defer = true
+  index.parentNode.insertBefore(script, index)
 }
 
 export default ReportLookUp;

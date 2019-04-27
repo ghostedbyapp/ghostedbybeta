@@ -4,9 +4,6 @@ import NavBar from "./components/NavBar";
 import LookUpChartWrapper from "./components/LookUpChartWrapper";
 import ReportLookUp from "./components/ReportLookUp";
 import Chart from "./components/Chart";
-import MapDescriptionMapWrapper from "./components/MapDescriptionMapWrapper";
-import MapDescription from "./components/MapDescription";
-import Maps from "./components/Maps";
 import Definition from "./components/Definition";
 import SomeFacts from "./components/SomeFacts";
 import Footer from "./components/Footer";
@@ -140,15 +137,6 @@ class App extends Component {
       </div>
     )
   }
-}
-
-function loadScript(url) {
-  var index = window.document.getElementsByTagName('script')[0]
-  var script = window.document.createElement('script')
-  script.src = url
-  script.async = true
-  script.defer = true
-  index.parentNode.insertBefore(script, index)
 }
 
 export default App;
