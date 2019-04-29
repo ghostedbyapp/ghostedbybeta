@@ -12,7 +12,6 @@ class ReportLookUp extends Component {
     });
   }
 
-
   // // Modal
   closeModalHandler = () => {
     this.setState({
@@ -35,7 +34,7 @@ class ReportLookUp extends Component {
     const searchedCompany = this.state.results;
 
     API.searchCompany(
-      searchedCompany.company_name,
+      searchedCompany.company_name
       // street_number: searchedCompany.street_number,
       // route: searchedCompany.route,
       // locality: searchedCompany.locality,
@@ -56,6 +55,7 @@ class ReportLookUp extends Component {
       }
     })
   }
+  
   componentDidMount() {
     this.loadTop10Companies()
   }
@@ -188,7 +188,6 @@ class ReportLookUp extends Component {
     });
 
     this.searchCompany();
-
   }
 
   // Save company to database
@@ -253,7 +252,7 @@ class ReportLookUp extends Component {
           }
          
 
-          {this.state.reportBtnClicked == true ? 
+          {this.state.reportBtnClicked === true ? 
             <ModalFooter>
               {/* <Button color="primary" onClick={this.saveCompany}>Report</Button> */}
               <Button color="primary" onClick={this.closeModalHandler}>Close</Button>
