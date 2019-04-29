@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from 'react-router-dom';
-import fb from '../config/FB'
+import FB from '../config/FB'
+import Auth from "../config/Auth"
 import "./admin.css";
 
 var styles = {
@@ -27,13 +28,16 @@ class Admin extends Component {
     e.preventDefault()
 
     // Login to Firebase
-    fb.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-    .then((e) => {
-      this.props.history.push("/companyLogs");      
-    })
+    FB.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+      .then((e) => {
+
+        Auth.login(() => {
+          this.props.history.push("/companyLogs");
+        })
+      })
       .catch((error) => {
         if (error) {
-          console.log('Something went wrong!');
+          console.log(error);
         }
       })
   }

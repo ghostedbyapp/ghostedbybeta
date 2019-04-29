@@ -41,7 +41,7 @@ class App extends Component {
   loadTop10Companies = () => {
     API.loadTop10Companies()
       .then((data) => {
-        console.log("lifetime", data)
+        //console.log("lifetime", data)
         this.getRows(data);
       })
     this.setState({
@@ -53,7 +53,7 @@ class App extends Component {
   last30days = () => {
     API.last30days()
       .then((data) => {
-        console.log("last30days", data)
+        //console.log("last30days", data)
         this.getRows(data);
       })
     this.setState({
@@ -65,7 +65,7 @@ class App extends Component {
   last7days = () => {
     API.last7days()
       .then((data) => {
-        console.log("last7days", data)
+        //console.log("last7days", data)
         this.getRows(data);
     this.setState({
       title: "Top 10 Reported Companies in the Past 7 Days"

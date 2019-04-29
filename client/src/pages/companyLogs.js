@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom';
 import FB from '../config/FB'
+import Auth from "../config/Auth"
 
 export class companyLogs extends Component {
 

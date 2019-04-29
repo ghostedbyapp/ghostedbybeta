@@ -64,7 +64,7 @@ class ReportLookUp extends Component {
   loadTop10Companies = () => {
     API.loadTop10Companies()
       .then((data) => {
-        console.log("lifetime", data)
+        //console.log("lifetime", data)
       })
   }
 
@@ -97,7 +97,7 @@ class ReportLookUp extends Component {
   last30days = () => {
     API.last30days()
       .then((data) => {
-        console.log("last30days", data)
+        //console.log("last30days", data)
         this.setArrays(data);
       })
   }
@@ -106,7 +106,7 @@ class ReportLookUp extends Component {
   last7days = () => {
     API.last7days()
       .then((data) => {
-        console.log("last7days", data)
+        //console.log("last7days", data)
         this.setArrays(data);
       })
   }

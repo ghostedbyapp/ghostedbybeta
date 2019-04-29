@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import FB from './config/FB'
-
-import PrivateRoute from "./config/PrivateRoute";
+import { PrivateRoute } from "./config/PrivateRoute";
 
 import Home from "./pages/Home.js";
 import Admin from "./pages/Admin.js";
@@ -11,37 +9,13 @@ import NoMatch from "./pages/NoMatch.js";
 
 class App extends Component {
 
-  state = {
-    loggedIn: false
-  }
-
-  componentWillMount() {
-    this.authListener()
-  }
-
-  authListener() {
-    FB.auth().onAuthStateChanged(user => {
-
-      if (user) {
-        this.setState({ loggedIn: true })
-      }
-      else{
-        this.setState({ loggedIn: false })
-      }
-    })
-  }
-
   render() {
-    const { loggedIn } = this.state;
-
-    console.log("loggedIn", loggedIn)
-
     return (
       <Router>
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/admin" component={Admin} />
-          <PrivateRoute exact path="/companyLogs" component={CompanyLogs} authenticated={loggedIn}/>
+          <PrivateRoute exact path="/companyLogs" component={CompanyLogs} />
           <Route component={NoMatch} />
         </Switch>
       </Router>
