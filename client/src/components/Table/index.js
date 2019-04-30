@@ -6,7 +6,7 @@ class Top10 extends Component {
     render() {
         return (
             <div className="col-md-6">
-                <h2>{this.props.title}</h2>
+                <h1 className="lead text-white">{this.props.title}</h1>
                 <Table dark striped hover>
                     <thead>
                         <tr>
