@@ -26,9 +26,9 @@ export class companyLogs extends Component {
         <p>As a subscriber you have access to the full set of data in our database for your reputation management.  
           Please contact ghostedbymedia@gmail.com if you have any questions.</p>
 
-          <p>Thanks,
+          <p>Thanks,</p>
 
-          The GhostedBy Team</p>
+          <p>The GhostedBy Team</p>
       </div>
     )
   }
