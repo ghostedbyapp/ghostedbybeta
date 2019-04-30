@@ -46,12 +46,18 @@ class Maps extends Component {
         map: map,
         title: company.name
       })
- 
-      marker.addListener('click', function(){
+
+      marker.addListener('click', function () {
         infoWindow.setContent(contentString)
-        infoWindow.open(map,marker)
+        infoWindow.open(map, marker)
       })
     })
+
+    window.google.maps.event.addListener(map, 'click', function () {
+      if (infoWindow) {
+        infoWindow.close();
+      }
+    });
   }
 
   render() {

@@ -12,7 +12,6 @@ class ReportLookUp extends Component {
     });
   }
 
-
   // // Modal
   closeModalHandler = () => {
     this.setState({
@@ -35,7 +34,7 @@ class ReportLookUp extends Component {
     const searchedCompany = this.state.results;
 
     API.searchCompany(
-      searchedCompany.company_name,
+      searchedCompany.company_name
       // street_number: searchedCompany.street_number,
       // route: searchedCompany.route,
       // locality: searchedCompany.locality,
@@ -56,6 +55,7 @@ class ReportLookUp extends Component {
       }
     })
   }
+  
   componentDidMount() {
     this.loadTop10Companies()
   }
@@ -64,7 +64,7 @@ class ReportLookUp extends Component {
   loadTop10Companies = () => {
     API.loadTop10Companies()
       .then((data) => {
-        console.log("lifetime", data)
+        //console.log("lifetime", data)
       })
   }
 
@@ -97,7 +97,7 @@ class ReportLookUp extends Component {
   last30days = () => {
     API.last30days()
       .then((data) => {
-        console.log("last30days", data)
+        //console.log("last30days", data)
         this.setArrays(data);
       })
   }
@@ -106,7 +106,7 @@ class ReportLookUp extends Component {
   last7days = () => {
     API.last7days()
       .then((data) => {
-        console.log("last7days", data)
+        //console.log("last7days", data)
         this.setArrays(data);
       })
   }
@@ -188,7 +188,6 @@ class ReportLookUp extends Component {
     });
 
     this.searchCompany();
-
   }
 
   // Save company to database
@@ -253,7 +252,7 @@ class ReportLookUp extends Component {
           }
          
 
-          {this.state.reportBtnClicked == true ? 
+          {this.state.reportBtnClicked === true ? 
             <ModalFooter>
               {/* <Button color="primary" onClick={this.saveCompany}>Report</Button> */}
               <Button color="primary" onClick={this.closeModalHandler}>Close</Button>

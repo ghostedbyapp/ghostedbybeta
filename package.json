@@ -10,22 +10,28 @@
     "client": "cd client && npm run start",
     "install": "cd client && npm install",
     "build": "cd client && npm run build",
-    "heroku-postbuild": "npm run build"
+    "heroku-postbuild": "npm run build",
+    "fix-memory-limit": "cross-env LIMIT=2048 increase-memory-limit"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^4.1.0",
+    "cross-env": "^5.2.0",
+    "increase-memory-limit": "^1.0.3",
     "nodemon": "^1.18.7"
   },
   "dependencies": {
-    "bootstrap": "^4.3.1",
     "axios": "^0.18.0",
+    "bootstrap": "^4.3.1",
     "express": "^4.16.3",
+    "firebase": "^5.10.1",
     "if-env": "^1.0.4",
     "isodate": "^0.1.4",
     "moment": "^2.24.0",
     "mongoose": "^5.5.1",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "react": "^16.8.6",
+    "react-router-dom": "^5.0.0"
   }
 }

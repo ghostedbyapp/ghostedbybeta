@@ -144,7 +144,7 @@ module.exports = {
   // Load Last 30 Days Companies
   last30days: function (req, res) {
 
-    console.log(moment().subtract(1, 'months').toDate())
+    //console.log(moment().subtract(1, 'months').toDate())
 
     // Get all counts
     db.Counts.aggregate([
@@ -174,7 +174,7 @@ module.exports = {
   // Load Last 7 Days Companies
   last7days: function (req, res) {
 
-    console.log(moment().subtract(7, 'days').toDate())
+    //console.log(moment().subtract(7, 'days').toDate())
 
     // Get all counts
     db.Counts.aggregate([
