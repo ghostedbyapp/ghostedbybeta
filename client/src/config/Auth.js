@@ -2,17 +2,19 @@ import FB from './FB'
 
 class Auth {
 
-    constructor(){
+    constructor() {
 
         FB.auth().onAuthStateChanged(user => {
 
             if (user) {
                 this.authenticated = true
+                console.log("this.authenticated", this.authenticated)
             }
-            else{
+            else {
                 this.authenticated = false
+                console.log("this.authenticated", this.authenticated)
             }
-          })
+        })
     }
 
     login(cb) {
@@ -25,7 +27,7 @@ class Auth {
         cb()
     }
 
-    isAuthenticated(){
+    isAuthenticated() {
         return this.authenticated
     }
 }

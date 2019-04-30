@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
+import { Redirect } from "react-router-dom";
 import FB from '../config/FB'
-import Auth from "../config/Auth"
 
 export class companyLogs extends Component {
 
@@ -9,6 +9,7 @@ export class companyLogs extends Component {
   }
 
   authListener() {
+
     FB.auth().signOut().then(function () {
       // Sign-out successful.
     }).catch(function (error) {
@@ -17,10 +18,17 @@ export class companyLogs extends Component {
   }
 
   render() {
-    // if (!this.state.loggedIn) return <Redirect to='/' />
+
     return (
       <div>
-        This shit works!
+        <h1>Welcome to GhostedBy!</h1>
+
+        <p>As a subscriber you have access to the full set of data in our database for your reputation management.  
+          Please contact ghostedbymedia@gmail.com if you have any questions.</p>
+
+          <p>Thanks,
+
+          The GhostedBy Team</p>
       </div>
     )
   }
