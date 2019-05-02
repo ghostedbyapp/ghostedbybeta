@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Redirect } from "react-router-dom";
 import FB from '../config/FB'
 
-export class companyLogs extends Component {
+export class CompanyLogs extends Component {
 
   componentDidMount() {
     this.authListener()
@@ -34,4 +34,4 @@ export class companyLogs extends Component {
   }
 }
 
-export default companyLogs
+export default CompanyLogs
