@@ -229,7 +229,7 @@ class ReportLookUp extends Component {
 
       // left side of home page to report or lookup a company
       <div className="col-sm-6 col-lg-6">
-        <h1 className="block-titleData frequency text-white">Report Companies Who Ghost Interview Candidates</h1>
+        <h1 className="block-title Data frequency text-white">Report Companies Who Ghost Interview Candidates</h1>
         <p className="lead mb-4 text-white">Report violators. Research trending companies. Become more productive in
       your job search.</p>
         <input type="text" id="lookup-company" value={this.state.search} onChange={this.handleInputChange} className="form-control" />

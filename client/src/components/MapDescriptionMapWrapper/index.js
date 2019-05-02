@@ -3,7 +3,7 @@ import "./MapDescriptionMapWrapper.css";
 
 function MapDescriptionMapWrapper(props) {
     return (
-        <div className="pb-5 pt-5">
+        <div className="pb-5 pt-5 map-wrapper">
             <div className="container">
                 <div className="row divHeight">
                     {props.children}

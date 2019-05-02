@@ -1,11 +1,48 @@
 import React, { Component } from 'react'
 import { Redirect } from "react-router-dom";
 import FB from '../config/FB'
+import API from '../utils'
+import AdminTable from '../components/AdminTable'
 
 export class companyLogs extends Component {
+  state= {
+    database: {},
+    rows: []
+  }
+
+  makeTable = data => {
+    let rows = []
+    for (const i in data) {
+      rows.push(
+        <tr>
+            <td>{data[i].name}</td>
+            <td>{data[i].address}</td>
+            <td>{data[i].city}</td>
+            <td>{data[i].state}</td>
+            <td>{data[i].zipcode}</td>
+            <td>{data[i].countIds}</td>
+        </tr>
+      )
+    }
+    this.setState({
+      rows: rows
+    })
+  }
+
+  getAllCompanies = () => {
+    API.getDatabase()
+      .then(data => {
+        console.log(data)
+        this.setState({
+          database: data
+        })
+        this.makeTable(data.data);
+      })
+  }
 
   componentDidMount() {
     this.authListener()
+    this.getAllCompanies();
   }
 
   authListener() {
@@ -29,6 +66,9 @@ export class companyLogs extends Component {
           <p>Thanks,</p>
 
           <p>The GhostedBy Team</p>
+          <AdminTable 
+            rows= {this.state.rows}
+          />
       </div>
     )
   }

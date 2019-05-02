@@ -8676,6 +8676,7 @@ textarea {
 
 .h1.block-title,
 h1.block-title {
+  margin-top: 30px;
   font-size: 37.5px;
   line-height: 1.2; }
 

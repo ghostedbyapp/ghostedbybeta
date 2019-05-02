@@ -16,6 +16,10 @@ class App extends Component {
           <Route exact path="/" component={Home} />
           <Route exact path="/admin" component={Admin} />
           <PrivateRoute exact path="/companyLogs" component={CompanyLogs} />
+
+          {/* Temporary route  */}
+          {/* <Route exact path="/companyLogs" component={CompanyLogs} /> */}
+          
           <Route component={NoMatch} />
         </Switch>
       </Router>
