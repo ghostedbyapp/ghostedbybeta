@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export default {
+
   getDatabase: function () {
     return axios.get('/api/getdatabase');
   },

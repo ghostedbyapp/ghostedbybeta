@@ -26,5 +26,7 @@ module.exports = function (app) {
     app.get("/api/last7days", model.last7days);
 
     app.get("/api/getdatabase", model.getDatabase);
+
+    // Test route to get all database info for the admin page
     // app.get("/api/getdatabase", model.getCompaniesAndReports);
 }

@@ -24,7 +24,7 @@ module.exports = {
 
   getCompaniesAndReports: function(req, res) {
     db.Companies.find({})
-      .populate("counts")
+      .populate("countId")
       .then(function(data) {
         res.json(data)
       })
