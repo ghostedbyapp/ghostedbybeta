@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from "react-router-dom"
 
 function Footer() {
     return (
@@ -23,7 +24,8 @@ function Footer() {
                 <li className="mb-2">
                   <h6 className="text-uppercase">Terms & Conditions</h6>
                 </li>
-                <li className="text-muted"><a href="/privacy">Privacy</a></li>
+                {/* <li className="text-muted"><a href="/privacy">Privacy</a></li> */}
+                <Link to="/privacy">Privacy</Link>
               </ul>
             </div>
             <div className="col-md-12 ml-auto mb-12">
