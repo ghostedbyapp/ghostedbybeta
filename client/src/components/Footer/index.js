@@ -1,6 +1,10 @@
 import React from "react";
 import {Link} from "react-router-dom"
 
+var styles = {
+  color: '#000000'
+};
+
 function Footer() {
     return (
       // footer area
@@ -24,7 +28,6 @@ function Footer() {
                 <li className="mb-2">
                   <h6 className="text-uppercase">Terms & Conditions</h6>
                 </li>
-                {/* <li className="text-muted"><a href="/privacy">Privacy</a></li> */}
                 <Link to="/privacy">Privacy</Link>
               </ul>
             </div>
@@ -32,7 +35,7 @@ function Footer() {
               <p>Please submit companies you've been GhostedBy to this database with integrity and honesty as this is
                 intended to be a source for candidates to share and research company activities for a more productive job
                 search. GhostedBy is a crowdsource database collecting the wisdom of the crowd to report companies who ghost
-                candidates. Please report responsibly.</p>
+                candidates. Please report responsibly.</p><Link to="/admin" style={styles}>Privacy</Link>
             </div>
           </div>
         </div>
