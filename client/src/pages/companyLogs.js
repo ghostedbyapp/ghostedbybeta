@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Redirect } from "react-router-dom";
 import FB from '../config/FB'
 
 export class CompanyLogs extends Component {
