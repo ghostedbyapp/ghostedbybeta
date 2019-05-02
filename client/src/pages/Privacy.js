@@ -5,7 +5,7 @@ export class Privacy extends Component {
     return (
       <div>
         <h4>GhostedBy</h4>
-        <p>Solving your tech problems</p>
+        <p>Report Companies Who Ghost Interview Candidates</p>
 
         <strong>Privacy</strong>
         <strong>Privacy Policy:</strong>
