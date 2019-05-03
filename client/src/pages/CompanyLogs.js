@@ -19,7 +19,7 @@ export class CompanyLogs extends Component {
             <td>{data[i].city}</td>
             <td>{data[i].state}</td>
             <td>{data[i].zipcode}</td>
-            <td>{data[i].countIds}</td>
+            <td>{data[i].countIds.length}</td>
         </tr>
       )
     }
