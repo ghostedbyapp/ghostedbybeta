@@ -23,7 +23,7 @@ module.exports = {
   },
 
   getCompaniesAndReports: function(req, res) {
-    db.Companies.find({})
+    db.Companies.find({}, null, {sort: {name: 1}})
       .populate("countId")
       .then(function(data) {
         res.json(data)
