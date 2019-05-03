@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
-import { Redirect } from "react-router-dom";
 import FB from '../config/FB'
 import API from '../utils'
 import AdminTable from '../components/AdminTable'
 
-export class companyLogs extends Component {
+export class CompanyLogs extends Component {
   state= {
     database: {},
     rows: []
@@ -46,7 +45,6 @@ export class companyLogs extends Component {
   }
 
   authListener() {
-
     FB.auth().signOut().then(function () {
       // Sign-out successful.
     }).catch(function (error) {
@@ -74,4 +72,4 @@ export class companyLogs extends Component {
   }
 }
 
-export default companyLogs
+export default CompanyLogs

@@ -4,7 +4,8 @@ import { PrivateRoute } from "./config/PrivateRoute";
 
 import Home from "./pages/Home.js";
 import Admin from "./pages/Admin.js";
-import CompanyLogs from "./pages/companyLogs.js";
+import CompanyLogs from "./pages/CompanyLogs.js";
+import Privacy from "./pages/Privacy.js";
 import NoMatch from "./pages/NoMatch.js";
 
 class App extends Component {
@@ -20,6 +21,7 @@ class App extends Component {
           {/* Temporary route  */}
           {/* <Route exact path="/companyLogs" component={CompanyLogs} /> */}
           
+          <Route exact path="/privacy" component={Privacy} />
           <Route component={NoMatch} />
         </Switch>
       </Router>
