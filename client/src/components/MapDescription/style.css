@@ -1,0 +1,5 @@
+@media (max-width: 574px) and (min-width: 414px) {
+    .description-block {
+        height: 0px;
+    }
+}

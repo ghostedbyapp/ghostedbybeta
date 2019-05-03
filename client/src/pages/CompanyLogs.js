@@ -1,14 +1,50 @@
 import React, { Component } from 'react'
 import FB from '../config/FB'
+import API from '../utils'
+import AdminTable from '../components/AdminTable'
 
 export class CompanyLogs extends Component {
+  state= {
+    database: {},
+    rows: []
+  }
+
+  makeTable = data => {
+    let rows = []
+    for (const i in data) {
+      rows.push(
+        <tr>
+            <td>{data[i].name}</td>
+            <td>{data[i].address}</td>
+            <td>{data[i].city}</td>
+            <td>{data[i].state}</td>
+            <td>{data[i].zipcode}</td>
+            <td>{data[i].countIds}</td>
+        </tr>
+      )
+    }
+    this.setState({
+      rows: rows
+    })
+  }
+
+  getAllCompanies = () => {
+    API.getDatabase()
+      .then(data => {
+        console.log(data)
+        this.setState({
+          database: data
+        })
+        this.makeTable(data.data);
+      })
+  }
 
   componentDidMount() {
     this.authListener()
+    this.getAllCompanies();
   }
 
   authListener() {
-
     FB.auth().signOut().then(function () {
       // Sign-out successful.
     }).catch(function (error) {
@@ -28,6 +64,9 @@ export class CompanyLogs extends Component {
           <p>Thanks,</p>
 
           <p>The GhostedBy Team</p>
+          <AdminTable 
+            rows= {this.state.rows}
+          />
       </div>
     )
   }

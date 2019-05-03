@@ -3,6 +3,35 @@ var moment = require('moment');
 var ObjectId = require('mongoose').Types.ObjectId;
 
 module.exports = {
+  getDatabase: function(req, res) {
+    db.Companies.aggregate([
+      { $unwind: '$countId' },
+      { $group: { _id: '$_id', name: { $first: '$name' }, state: { $first: '$state' }, city: { $first: '$city' }, address: { $first: '$address' }, zipcode: { $first: '$zipcode' }, lat: { $first: '$lat' }, lng: { $first: '$lng' }, countIds: { $sum: 1 } } },
+      { $sort: { countIds: -1 } }])
+
+      // Use the below code to show the count Ids
+      //{$group: {_id:"$_id", name:{$first: "$name"}, countId: {$push:"$countId"}, size: {$sum:1}}},
+
+      .then(function (dbCompanies) {
+        // If able to successfully find and associate all companies and counts, send them back to the client
+        res.json(dbCompanies);
+      })
+      .catch(function (err) {
+        // If an error occurs, send it back to the client
+        res.json(err);
+      });
+  },
+
+  getCompaniesAndReports: function(req, res) {
+    db.Companies.find({})
+      .populate("countId")
+      .then(function(data) {
+        res.json(data)
+      })
+      .catch(function(err) {
+        res.json(err)
+      })
+  },
 
   search: function(req, res) {
     db.Companies.findOne({
