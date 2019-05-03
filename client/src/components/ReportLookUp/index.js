@@ -33,14 +33,11 @@ class ReportLookUp extends Component {
   searchCompany = () => {
     const searchedCompany = this.state.results;
 
-    API.searchCompany(
-      searchedCompany.company_name
-      // street_number: searchedCompany.street_number,
-      // route: searchedCompany.route,
-      // locality: searchedCompany.locality,
-      // administrative_area_level_1: searchedCompany.administrative_area_level_1,
-      // postal_code: searchedCompany.postal_code
-    )
+    API.searchCompany({
+      name: searchedCompany.company_name,
+      street_number: searchedCompany.street_number,
+      route: searchedCompany.route,
+    })
     .then(result => {
       console.log(result)
       if (result.data) {
@@ -84,14 +81,6 @@ class ReportLookUp extends Component {
     })
   }
 
-  // Load top 10 companies from the database
-  // loadLifetimeCompanies = () => {
-  //   API.loadLifetimeCompanies()
-  //     .then((data) => {
-  //       console.log("lifetime", data)
-  //       this.setArrays(data);
-  //     })
-  // }
 
   // Load last 30 days from the database
   last30days = () => {

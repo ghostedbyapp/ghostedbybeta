@@ -14,7 +14,7 @@ export class CompanyLogs extends Component {
     // console.log(data[0].countId)
     for (const i in data) {
       rows.push(
-        <tr>
+        <tr key={data[i]._id}>
             <td>{data[i].name}</td>
             <td>{data[i].address}</td>
             <td>{data[i].city}</td>

@@ -98,7 +98,7 @@ class App extends Component {
     let rows = []
     for (let i in data.data) {
         rows.push(
-          <tr>
+          <tr key={data.data[i]._id}>
               <td>{data.data[i].name}</td>
               <td>{data.data[i].countIds}</td>
           </tr>
