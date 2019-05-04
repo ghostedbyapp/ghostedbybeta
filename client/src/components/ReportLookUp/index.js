@@ -223,7 +223,7 @@ class ReportLookUp extends Component {
         <h1 className="block-title Data frequency text-white">Report Companies Who Ghost Interview Candidates</h1>
         <p className="lead mb-4 text-white">Report violators. Research trending companies. Become more productive in
       your job search.</p>
-        <input type="text" id="lookup-company" value={this.state.search} onChange={this.handleInputChange} placeholder="Enter a company name and select from the dropdown to report." className="form-control" />
+        <input type="text" id="lookup-company" value={this.state.search} onChange={this.handleInputChange} placeholder="Enter a company name and select from dropdown" className="form-control" />
         <Modal isOpen={this.state.isShowing}>
           <ModalHeader>
             {this.state.results.company_name}
