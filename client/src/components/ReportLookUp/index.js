@@ -18,6 +18,8 @@ class ReportLookUp extends Component {
       isShowing: false,
       reportBtnClicked: false
     });
+    // Temporary solution to reload page afer modal close
+    window.location.reload();
   }
 
   state = {
@@ -144,7 +146,7 @@ class ReportLookUp extends Component {
 
       // User entered the name of a Place that was not suggested and
       // pressed the Enter key, or the Place Details request failed.
-      window.alert("No details available for input: '" + place.name + "'");
+      window.alert("Please reenter the company name and select from the dropdown to report");
       return;
     }
 
@@ -221,7 +223,7 @@ class ReportLookUp extends Component {
         <h1 className="block-title Data frequency text-white">Report Companies Who Ghost Interview Candidates</h1>
         <p className="lead mb-4 text-white">Report violators. Research trending companies. Become more productive in
       your job search.</p>
-        <input type="text" id="lookup-company" value={this.state.search} onChange={this.handleInputChange} className="form-control" />
+        <input type="text" id="lookup-company" value={this.state.search} onChange={this.handleInputChange} placeholder="Enter a company name and select from the dropdown to report." className="form-control" />
         <Modal isOpen={this.state.isShowing}>
           <ModalHeader>
             {this.state.results.company_name}
