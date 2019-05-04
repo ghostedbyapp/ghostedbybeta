@@ -11,15 +11,16 @@ export class CompanyLogs extends Component {
 
   makeTable = data => {
     let rows = []
+    // console.log(data[0].countId)
     for (const i in data) {
       rows.push(
-        <tr>
+        <tr key={data[i]._id}>
             <td>{data[i].name}</td>
             <td>{data[i].address}</td>
             <td>{data[i].city}</td>
             <td>{data[i].state}</td>
             <td>{data[i].zipcode}</td>
-            <td>{data[i].countIds}</td>
+            <td>{data[i].countId.length}</td>
         </tr>
       )
     }

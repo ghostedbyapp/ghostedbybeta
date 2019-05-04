@@ -9,7 +9,7 @@ export default {
   // Search a company without saving
   searchCompany: function(companyInfo) {
     console.log("axios:", companyInfo)
-    return axios.get("/api/company/" + companyInfo)
+    return axios.get("/api/company/" + companyInfo.name + "/" + companyInfo.route + "/" + companyInfo.street_number)
   },
 
   // Saves a Company info to the database

@@ -23,7 +23,7 @@ module.exports = {
   },
 
   getCompaniesAndReports: function(req, res) {
-    db.Companies.find({})
+    db.Companies.find({}, null, {sort: {name: 1}})
       .populate("countId")
       .then(function(data) {
         res.json(data)
@@ -36,10 +36,7 @@ module.exports = {
   search: function(req, res) {
     db.Companies.findOne({
       name: req.params.company_name,
-      // address: `${req.params.street_number} ${req.params.route}`,
-      // city: req.params.locality,
-      // state: req.params.administrative_area_level_1,
-      // zipcode: req.params.postal_code
+      address: `${req.params.street_number} ${req.params.route}`,
     }).then(function (searchedCompany) {
       res.json(searchedCompany)
     }).catch(err => res.status(422).json(err))

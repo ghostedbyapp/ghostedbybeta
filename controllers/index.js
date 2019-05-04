@@ -9,7 +9,7 @@ module.exports = function (app) {
     app.post("/api/report", model.report);
 
     // Search a Company
-    app.get("/api/company/:company_name", model.search)
+    app.get("/api/company/:company_name/:route/:street_number", model.search)
 
     // Load Lifetime Companies
     // app.get("/api/loadLifetimeCompanies", model.loadLifetime);
@@ -25,8 +25,8 @@ module.exports = function (app) {
     // Load last 7 days
     app.get("/api/last7days", model.last7days);
 
-    app.get("/api/getdatabase", model.getDatabase);
+    // app.get("/api/getdatabase", model.getDatabase);
 
     // Test route to get all database info for the admin page
-    // app.get("/api/getdatabase", model.getCompaniesAndReports);
+    app.get("/api/getdatabase", model.getCompaniesAndReports);
 }
