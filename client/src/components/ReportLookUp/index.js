@@ -56,16 +56,16 @@ class ReportLookUp extends Component {
   }
   
   componentDidMount() {
-    this.loadTop10Companies()
+    // this.loadTop10Companies()
   }
 
   // Load top 10 companies from the database
-  loadTop10Companies = () => {
-    API.loadTop10Companies()
-      .then((data) => {
-        //console.log("lifetime", data)
-      })
-  }
+  // loadTop10Companies = () => {
+  //   API.loadTop10Companies()
+  //     .then((data) => {
+  //       //console.log("lifetime", data)
+  //     })
+  // }
 
   setArrays = data => {
     let nameArray = []
@@ -237,7 +237,7 @@ class ReportLookUp extends Component {
             <ModalBody>
               {this.state.companyIsInDB ? 
                 `This company has been reported ${this.state.searchedCompInfo.countId.length} time(s)` :
-                "This Company is not in the database yet"
+                "This company has not been reported yet. If you were ghosted by them please click the Report button."
               }
             </ModalBody>
           }
