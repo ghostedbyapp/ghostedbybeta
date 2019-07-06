@@ -11,6 +11,7 @@ class Top10 extends Component {
                     <thead>
                         <tr>
                             <th>Company</th>
+                            <th>Partial Address</th>
                             <th>Count</th>
                         </tr>
                     </thead>

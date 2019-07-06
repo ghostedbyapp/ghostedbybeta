@@ -150,7 +150,7 @@ module.exports = {
 
     db.Companies.aggregate([
       { $unwind: '$countId' },
-      { $group: { _id: '$_id', name: { $first: '$name' }, countIds: { $sum: 1 } } },
+      { $group: { _id: '$_id', name: { $first: '$name' }, state: { $first: '$state' }, city: { $first: '$city' }, address: { $first: '$address' }, countIds: { $sum: 1 } } },
       { $sort: { countIds: -1 } },
       { $limit: 10 }])
 
@@ -188,7 +188,7 @@ module.exports = {
         db.Companies.aggregate([
           { $unwind: '$countId' },
           { $match: { countId: { $in: count } } },
-          { $group: { _id: '$_id', name: { $first: '$name' }, countIds: { $sum: 1 } } },
+          { $group: { _id: '$_id', name: { $first: '$name' }, state: { $first: '$state' }, city: { $first: '$city' }, address: { $first: '$address' }, countIds: { $sum: 1 } } },
         ])
 
           .then(function (results) {
@@ -218,7 +218,7 @@ module.exports = {
         db.Companies.aggregate([
           { $unwind: '$countId' },
           { $match: { countId: { $in: count } } },
-          { $group: { _id: '$_id', name: { $first: '$name' }, countIds: { $sum: 1 } } },
+          { $group: { _id: '$_id', name: { $first: '$name' }, state: { $first: '$state' }, city: { $first: '$city' }, address: { $first: '$address' }, countIds: { $sum: 1 } } },
         ])
 
           .then(function (results) {
