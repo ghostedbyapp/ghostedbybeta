@@ -82,7 +82,7 @@ class App extends Component {
   }
 
   renderMapsAndPlaces = () => {
-    loadScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyBbyk8K108Ko9KQlMx7jtjPmga2wn0IpJs&libraries=places&callback=initialize")
+    loadScript("https://maps.googleapis.com/maps/api/js?key="API KEY"&libraries=places&callback=initialize")
     window.initialize = this.initialize
   }
 
