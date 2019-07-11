@@ -21,11 +21,6 @@ class App extends Component {
     rows : [],
     table: ""
   }
-
-  testFunc = () => {
-    console.log(process.env.NODE_ENV)
-    console.log(process.env.REACT_APP_API_KEY)
-  }
   
   // Used for to pass company information to the bar chart in the form of arrays
   // setArrays = data => {
@@ -84,7 +79,6 @@ class App extends Component {
   componentDidMount() {
     this.renderMapsAndPlaces();
     this.loadTop10Companies()
-    this.testFunc()
     // this.last30days()
     // this.last7days()
   }
