@@ -13,6 +13,8 @@ import Footer from "../components/Footer";
 import API from "../utils/"
 import Top10 from "../components/Table"
 
+
+
 class App extends Component {
   state = {
     top10: {},
@@ -20,6 +22,11 @@ class App extends Component {
     table: ""
   }
 
+  testFunc = () => {
+    console.log(process.env.NODE_ENV)
+    console.log(process.env.REACT_APP_API_KEY)
+  }
+  
   // Used for to pass company information to the bar chart in the form of arrays
   // setArrays = data => {
   //   let nameArray = []
@@ -77,12 +84,20 @@ class App extends Component {
   componentDidMount() {
     this.renderMapsAndPlaces();
     this.loadTop10Companies()
+    this.testFunc()
     // this.last30days()
     // this.last7days()
   }
 
   renderMapsAndPlaces = () => {
-    loadScript("https://maps.googleapis.com/maps/api/js?key="API KEY"&libraries=places&callback=initialize")
+    let API_KEY = ''
+    if (process.env.NODE_ENV == 'production') {
+      API_KEY = process.env.API_KEY
+    } else if (process.env.NODE_ENV == 'development') {
+      API_KEY = process.env.REACT_APP_API_KEY
+    }
+    
+    loadScript("https://maps.googleapis.com/maps/api/js?key=" + API_KEY + "&libraries=places&callback=initialize")
     window.initialize = this.initialize
   }
 
