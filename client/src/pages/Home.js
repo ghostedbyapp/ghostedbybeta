@@ -21,6 +21,10 @@ class App extends Component {
     rows : [],
     table: ""
   }
+
+  testFunc = () => {
+    console.log(process.env.API_KEY)
+  }
   
   // Used for to pass company information to the bar chart in the form of arrays
   // setArrays = data => {
@@ -79,18 +83,14 @@ class App extends Component {
   componentDidMount() {
     this.renderMapsAndPlaces();
     this.loadTop10Companies()
+    this.testFunc();
     // this.last30days()
     // this.last7days()
   }
 
   renderMapsAndPlaces = () => {
-    let API_KEY = ''
-    if (process.env.NODE_ENV == 'production') {
-      API_KEY = process.env.API_KEY
-    } else if (process.env.NODE_ENV == 'development') {
-      API_KEY = process.env.REACT_APP_API_KEY
-    }
-    
+    let API_KEY = process.env.API_KEY || process.env.REACT_APP_API_KEY
+
     loadScript("https://maps.googleapis.com/maps/api/js?key=" + API_KEY + "&libraries=places&callback=initialize")
     window.initialize = this.initialize
   }
@@ -108,7 +108,7 @@ class App extends Component {
     for (let i in data.data) {
         rows.push(
           <tr key={data.data[i]._id}>
-              <td>{data.data[i].name}, {data.data[i].city} {data.data[i].state}, {data.data[i].address.substring(0,11)}...</td>
+              <td>{data.data[i].name}</td>
               <td>{data.data[i].city} {data.data[i].state}, {data.data[i].address.substring(0,11)}...</td>
               <td>{data.data[i].countIds}</td>
           </tr>
