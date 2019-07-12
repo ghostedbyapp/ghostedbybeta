@@ -22,9 +22,7 @@ class App extends Component {
     table: ""
   }
 
-  testFunc = () => {
-    console.log(process.env.API_KEY)
-  }
+
   
   // Used for to pass company information to the bar chart in the form of arrays
   // setArrays = data => {
@@ -83,13 +81,12 @@ class App extends Component {
   componentDidMount() {
     this.renderMapsAndPlaces();
     this.loadTop10Companies()
-    this.testFunc();
     // this.last30days()
     // this.last7days()
   }
 
   renderMapsAndPlaces = () => {
-    let API_KEY = process.env.API_KEY || process.env.REACT_APP_API_KEY
+    let API_KEY = process.env.REACT_APP_API_KEY
 
     loadScript("https://maps.googleapis.com/maps/api/js?key=" + API_KEY + "&libraries=places&callback=initialize")
     window.initialize = this.initialize
