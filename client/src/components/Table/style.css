@@ -1,1 +1,5 @@
-Button
+@media (max-width: 574px) and (min-width: 414px) {
+    .table {
+        width: 100%
+    }
+}
