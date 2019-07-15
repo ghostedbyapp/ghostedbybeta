@@ -86,7 +86,7 @@ class App extends Component {
   }
 
   renderMapsAndPlaces = () => {
-    let API_KEY = process.env.REACT_APP_API_KEY
+    let API_KEY = process.env.REACT_APP_API_KEY || process.env.REACT_APP_API_LOCAL
 
     loadScript("https://maps.googleapis.com/maps/api/js?key=" + API_KEY + "&libraries=places&callback=initialize")
     window.initialize = this.initialize

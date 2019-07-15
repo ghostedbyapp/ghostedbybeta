@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Table, Button} from 'reactstrap';
-
+import './style.css'
 
 class Top10 extends Component {
     render() {
