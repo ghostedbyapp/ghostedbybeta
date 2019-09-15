@@ -175,7 +175,8 @@ module.exports = {
     // Get all counts
     db.Counts.aggregate([
       { $match: { entry_date: { $gte: moment().subtract(1, 'months').toDate() } } },
-      { $project: { entry_date: 0, __v: 0 } }
+      { $project: { entry_date: 0, __v: 0 } },
+      { $limit: 10 }
     ])
       .then(function (dbCompanies) {
         console.log(dbCompanies)
@@ -205,7 +206,8 @@ module.exports = {
     // Get all counts
     db.Counts.aggregate([
       { $match: { entry_date: { $gte: moment().subtract(7, 'days').toDate() } } },
-      { $project: { entry_date: 0, __v: 0 } }
+      { $project: { entry_date: 0, __v: 0 } },
+      { $limit: 10 }
     ])
       .then(function (dbCompanies) {
 
